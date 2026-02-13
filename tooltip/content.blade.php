@@ -60,7 +60,10 @@
     'bg-foreground text-background border-0',
     $position,
 ]) }}
-    {!! $transition !!} data-slot="tooltip-content" x-cloak x-show="open">
+    {!! $transition !!}
+    data-slot="tooltip-content"
+    x-cloak
+    x-show="open">
     {{ $slot }}
 
     <span class="{{ twMerge('absolute size-2.5 rounded-xs rotate-45 bg-foreground', $arrow) }}"></span>

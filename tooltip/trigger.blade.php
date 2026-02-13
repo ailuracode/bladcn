@@ -1,9 +1,7 @@
-<div
-    data-slot="tooltip-trigger"
+<div @blur="hide()"
+    @focus="show()"
     @mouseenter="show()"
     @mouseleave="hide()"
-    @focus="show()"
-    @blur="hide()"
->
+    data-slot="tooltip-trigger">
     {{ $slot }}
 </div>

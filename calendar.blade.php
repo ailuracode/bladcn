@@ -12,7 +12,8 @@
     }
 @endphp
 
-<div {{ $attributes->except(['class']) }} {{-- blade-formatter-disable --}}
+<div {{ $attributes->except(['class']) }}
+    {{-- blade-formatter-disable --}}
     @if ($model)
         @if ($isLive)
             x-data="calendar(@entangle('$model').live)"
@@ -22,10 +23,14 @@
     @else
         x-data="calendar('{{ $value }}')"
     @endif
-    {{-- blade-formatter-enable --}} class="bg-background w-fit rounded-xl border p-2"
-    data-slot="calendar" x-init="init()">
+    {{-- blade-formatter-enable --}}
+    class="bg-background w-fit rounded-xl border p-2"
+    data-slot="calendar"
+    x-init="init()">
     <div class="my-2 flex items-center justify-between">
-        <button @click="prevMonth" class="p-1" type="button">
+        <button @click="prevMonth"
+            class="p-1"
+            type="button">
             <x-lucide-chevron-left class="size-4" />
         </button>
 
@@ -33,27 +38,35 @@
             <span x-text="monthLabel"></span>
         </div>
 
-        <button @click="nextMonth" class="p-1" type="button">
+        <button @click="nextMonth"
+            class="p-1"
+            type="button">
             <x-lucide-chevron-right class="size-4" />
         </button>
     </div>
 
     <div class="flex py-3">
-        <template :key="d" x-for="d in weekDays">
-            <div class="text-muted-foreground flex-1 text-center text-xs" x-text="d"></div>
+        <template :key="d"
+            x-for="d in weekDays">
+            <div class="text-muted-foreground flex-1 text-center text-xs"
+                x-text="d"></div>
         </template>
     </div>
 
     <div class="grid grid-cols-7 gap-y-3">
-        <template :key="day.date.toISOString()" x-for="day in days">
-            <x-button size="icon-sm" type="button" variant="ghost"
+        <template :key="day.date.toISOString()"
+            x-for="day in days">
+            <x-button size="icon-sm"
+                type="button"
+                variant="ghost"
                 x-bind:class="{
                     'text-muted-foreground': day.outside,
                     'bg-primary text-primary-foreground': isSelected(day),
                     'hover:bg-muted': !isSelected(day) && !day.outside,
                     'bg-muted': new Date().toDateString() === day.date.toDateString()
                 }"
-                x-on:click="select(day)" x-text="day.label"></x-button>
+                x-on:click="select(day)"
+                x-text="day.label"></x-button>
         </template>
     </div>
 </div>

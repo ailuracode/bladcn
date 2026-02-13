@@ -4,7 +4,9 @@
     'defaultValue' => null,
 ])
 
-<div @if (!$open) x-cloak @endif class="flex w-full flex-col" data-slot="accordion"
+<div @if (!$open) x-cloak @endif
+    class="flex w-full flex-col"
+    data-slot="accordion"
     x-data="accordion({{ $open ? 'true' : 'false' }}, '{{ $type }}', '{{ $defaultValue }}')">
     {{ $slot }}
 </div>

@@ -10,7 +10,9 @@
     }
 @endphp
 
-<div {{ $attributes->twMerge('') }} data-slot="alert-dialog" x-data="alertDialog({{ $open ? 'true' : 'false' }})">
+<div {{ $attributes->twMerge('') }}
+    data-slot="alert-dialog"
+    x-data="alertDialog({{ $open ? 'true' : 'false' }})">
     {{ $slot }}
 </div>
 

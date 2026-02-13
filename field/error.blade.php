@@ -19,7 +19,9 @@
 @endphp
 
 @if ($content)
-    <div {{ $attributes->class('text-destructive text-sm font-normal') }} data-slot="field-error" role="alert">
+    <div {{ $attributes->class('text-destructive text-sm font-normal') }}
+        data-slot="field-error"
+        role="alert">
         @if (is_string($content))
             {{ $content }}
         @else

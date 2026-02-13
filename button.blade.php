@@ -34,12 +34,10 @@
         'icon-sm' => 'size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg',
         'icon-lg' => 'size-9',
     ];
-
-    $class = $base . ' ' . $variants[$variant] . ' ' . $sizes[$size];
 @endphp
 
 <x-as-child :as='$as'
-    {{ $attributes->twMerge($class) }}
+    {{ $attributes->twMerge($base, $variants[$variant], $sizes[$size]) }}
     data-size='{{ $size }}'
     data-slot='button'
     data-variant='{{ $variant }}'>
