@@ -2,8 +2,8 @@
     'as' => 'a',
 ])
 
-<x-as-child :as="$as"
-    {{ $attributes->twMerge('hover:text-foreground transition-colors') }}
-    data-slot="breadcrumb-link">
+<x-as-child {{ $attributes->twMerge('hover:text-foreground transition-colors') }}
+    data-slot="breadcrumb-link"
+    tag={{ $as }}>
     {{ $slot }}
 </x-as-child>
