@@ -1,5 +1,5 @@
 @props([
-    'as' => 'div',
+    'tag' => 'div',
 ])
 
-<{{ $as }} {{ $attributes }}>{{ $slot }}</{{ $as }}>
+<{{ $tag }} {!! $attributes !!}>{{ $slot }}</{{ $tag }}>

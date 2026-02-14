@@ -36,10 +36,10 @@
     ];
 @endphp
 
-<x-as-child :as='$as'
-    {{ $attributes->twMerge($base, $variants[$variant], $sizes[$size]) }}
+<x-as-child {{ $attributes->twMerge($base, $variants[$variant], $sizes[$size]) }}
     data-size='{{ $size }}'
     data-slot='button'
-    data-variant='{{ $variant }}'>
+    data-variant='{{ $variant }}'
+    tag='{{ $as }}'>
     {{ $slot }}
 </x-as-child>
