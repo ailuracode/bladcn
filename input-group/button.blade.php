@@ -21,7 +21,7 @@
 
 <x-button :type="$type"
     :variant="$variant"
-    {{ $attributes->class($classes) }}
+    {{ $attributes->twMerge($classes) }}
     data-size="{{ $size }}"
     data-slot="input-group-button">
     {{ $slot }}
