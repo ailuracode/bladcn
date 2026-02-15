@@ -23,9 +23,6 @@
     data-align="{{ $align }}"
     data-slot="input-group-addon"
     role="group"
-    x-on:click="
-        if ($event.target.closest('button')) return;
-        $el.parentElement?.querySelector('input')?.focus();
-    ">
+    x-on:mousedown.prevent>
     {{ $slot }}
 </div>
