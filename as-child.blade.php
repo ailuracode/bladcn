@@ -2,4 +2,4 @@
     'tag' => 'div',
 ])
 
-<{{ $tag }} {!! $attributes !!}>{{ $slot }}</{{ $tag }}>
+<{{ $tag }} {{ $attributes }}>{{ $slot }}</{{ $tag }}>
