@@ -2,6 +2,7 @@
     'variant' => 'default',
     'size' => 'default',
     'as' => 'button',
+    'disabled' => false,
 ])
 
 @php
@@ -36,10 +37,15 @@
     ];
 @endphp
 
-<x-as-child {{ $attributes->twMerge($base, $variants[$variant], $sizes[$size]) }}
-    data-size='{{ $size }}'
-    data-slot='button'
-    data-variant='{{ $variant }}'
+<x-as-child
+    {{ $attributes->merge([
+        'class' => $base . ' ' . $variants[$variant] . ' ' . $sizes[$size],
+        'disabled' => $disabled,
+        'data-disabled' => $disabled,
+        'data-size' => $size,
+        'data-slot' => 'button',
+        'data-variant' => $variant,
+    ]) }}
     tag='{{ $as }}'>
     {{ $slot }}
 </x-as-child>
