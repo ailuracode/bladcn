@@ -2,6 +2,7 @@
     'value' => null,
     'defaultValue' => null,
     'transition' => false,
+    'disabled' => false,
 ])
 
 <button :aria-expanded="isSelected('{{ $value }}')"
@@ -13,6 +14,7 @@
         '**:data-[slot=accordion-trigger-icon]:ml-auto **:data-[slot=accordion-trigger-icon]:size-4',
         '**:data-[slot=accordion-trigger-icon]:text-muted-foreground',
     ])
+    @disabled($disabled)
     data-accordion-value='{{ $value }}'
     data-slot='accordion-trigger'
     type='button'
