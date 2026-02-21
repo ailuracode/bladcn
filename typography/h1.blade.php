@@ -1,3 +1,4 @@
-<h1 {{ $attributes->twMerge('scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance') }}>
+<h1
+    {{ $attributes->twMerge('scroll-m-20 text-center text-4xl font-extrabold tracking-tight text-balance') }}>
     {{ $slot }}
 </h1>

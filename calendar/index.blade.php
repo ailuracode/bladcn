@@ -6,7 +6,10 @@
         $model = null;
     } elseif ($attributes->has('wire:model')) {
         $model = $attributes->wire('model')->value();
-        $isLive = str_ends_with($attributes->wire('model')->directive(), '.live');
+        $isLive = str_ends_with(
+            $attributes->wire('model')->directive(),
+            '.live',
+        );
     } else {
         $model = null;
     }
@@ -63,7 +66,8 @@
                     'text-muted-foreground': day.outside,
                     'bg-primary text-primary-foreground': isSelected(day),
                     'hover:bg-muted': !isSelected(day) && !day.outside,
-                    'bg-muted': new Date().toDateString() === day.date.toDateString()
+                    'bg-muted': new Date().toDateString() === day.date
+                        .toDateString()
                 }"
                 x-on:click="select(day)"
                 x-text="day.label"></x-button>
@@ -80,7 +84,9 @@
                 selected: null,
                 model,
 
-                weekDays: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+                weekDays: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr',
+                    'Sa'
+                ],
 
                 init() {
                     if (this.model) {
@@ -103,17 +109,20 @@
 
                 toYmd(date) {
                     const y = date.getFullYear()
-                    const m = String(date.getMonth() + 1).padStart(2, '0')
-                    const d = String(date.getDate()).padStart(2, '0')
+                    const m = String(date.getMonth() + 1)
+                        .padStart(2, '0')
+                    const d = String(date.getDate()).padStart(2,
+                        '0')
                     return `${y}-${m}-${d}`
                 },
 
                 get monthLabel() {
                     if (!this.current) return ''
-                    return this.current.toLocaleDateString('en-US', {
-                        month: 'short',
-                        year: 'numeric'
-                    })
+                    return this.current.toLocaleDateString(
+                        'en-US', {
+                            month: 'short',
+                            year: 'numeric'
+                        })
                 },
 
                 build() {
@@ -123,8 +132,10 @@
                     const first = new Date(year, month, 1)
                     const startDay = first.getDay()
 
-                    const daysInMonth = new Date(year, month + 1, 0).getDate()
-                    const daysInPrevMonth = new Date(year, month, 0).getDate()
+                    const daysInMonth = new Date(year, month +
+                        1, 0).getDate()
+                    const daysInPrevMonth = new Date(year,
+                        month, 0).getDate()
 
                     this.days = []
 
@@ -133,7 +144,8 @@
                         this.days.push({
                             label: d,
                             outside: true,
-                            date: new Date(year, month - 1, d)
+                            date: new Date(year, month -
+                                1, d)
                         })
                     }
 
@@ -141,16 +153,19 @@
                         this.days.push({
                             label: d,
                             outside: false,
-                            date: new Date(year, month, d)
+                            date: new Date(year, month,
+                                d)
                         })
                     }
 
                     while (this.days.length % 7 !== 0) {
-                        const d = this.days.length - (startDay + daysInMonth) + 1
+                        const d = this.days.length - (startDay +
+                            daysInMonth) + 1
                         this.days.push({
                             label: d,
                             outside: true,
-                            date: new Date(year, month + 1, d)
+                            date: new Date(year, month +
+                                1, d)
                         })
                     }
                 },
@@ -183,7 +198,8 @@
 
                 isSelected(day) {
                     return this.selected &&
-                        this.selected.toDateString() === day.date.toDateString()
+                        this.selected.toDateString() === day
+                        .date.toDateString()
                 }
             }))
         })

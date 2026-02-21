@@ -3,7 +3,8 @@
      data-slot="field-separator">
      <x-separator class="absolute inset-0 top-1/2" />
      @if ($slot->isNotEmpty())
-         <span class="text-muted-foreground bg-background relative mx-auto block w-fit px-2"
+         <span
+             class="text-muted-foreground bg-background relative mx-auto block w-fit px-2"
              data-slot="field-separator-content">
              {{ $slot }}
          </span>

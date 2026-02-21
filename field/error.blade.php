@@ -6,7 +6,12 @@
     $content = trim($slot);
 
     if (!$content) {
-        $messages = collect($errors)->filter()->pluck('message')->filter()->unique()->values();
+        $messages = collect($errors)
+            ->filter()
+            ->pluck('message')
+            ->filter()
+            ->unique()
+            ->values();
 
         if ($messages->isEmpty()) {
             $content = null;

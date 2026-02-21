@@ -16,7 +16,6 @@
         {{ $slot }}
     @endif
 
-
     @if ($showRemove)
         <div>
             <x-button class='-ml-1 opacity-50 hover:opacity-100'

@@ -3,17 +3,21 @@
 ])
 
 @php
+    $base =
+        'grid gap-0.5 rounded-lg border px-2.5 py-2 text-left text-sm has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:text-current *:[svg:not([class*=\'size-\'])]:size-4 w-full relative group/alert';
+
     $variants = [
-        'variant' => [
-            'default' => 'bg-card text-card-foreground',
-            'destructive' =>
-                'text-destructive bg-card *:data-[slot=alert-description]:text-destructive/90 *:[svg]:text-current',
-        ],
+        'default' => 'bg-card text-card-foreground',
+        'destructive' =>
+            'text-destructive bg-card *:data-[slot=alert-description]:text-destructive/90 *:[svg]:text-current',
     ];
 @endphp
 
-<div {{ $attributes->twMerge('grid gap-0.5 rounded-lg border px-2.5 py-2 text-left text-sm has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:text-current *:[svg:not([class*=\'size-\'])]:size-4 w-full relative group/alert' . ' ' . $variants['variant'][$variant]) }}
-    data-slot='alert'
-    role='alert'>
+<div
+    {{ $attributes->merge([
+        'class' => $base . ' ' . $variants[$variant],
+        'data-slot' => 'alert',
+        'role' => 'alert',
+    ]) }}>
     {{ $slot }}
 </div>

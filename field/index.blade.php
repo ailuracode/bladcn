@@ -13,10 +13,13 @@
         ],
     ];
 
-    $base = 'data-[invalid=true]:text-destructive gap-2 group/field flex w-full data-disabled:opacity-50';
+    $base =
+        'data-[invalid=true]:text-destructive gap-2 group/field flex w-full data-disabled:opacity-50';
 @endphp
 
-<div {{ $attributes->twMerge($base, $variants['orientation'][$orientation]) }} data-orientation='{{ $orientation }}'
-    data-slot='field' role='group'>
+<div {{ $attributes->twMerge($base, $variants['orientation'][$orientation]) }}
+    data-orientation='{{ $orientation }}'
+    data-slot='field'
+    role='group'>
     {{ $slot }}
 </div>

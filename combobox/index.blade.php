@@ -36,53 +36,75 @@
 
                 init() {
                     this.$watch('open', value => {
-                        this.$dispatch('open-change', value)
+                        this.$dispatch('open-change',
+                            value)
                     })
 
                     this.$watch('selected', value => {
-                        this.$dispatch('selected', value)
+                        this.$dispatch('selected',
+                            value)
                     })
 
-                    this.$content = this.$refs.combobox.querySelector('[data-slot="combobox-content"]');
+                    this.$content = this.$refs.combobox
+                        .querySelector(
+                            '[data-slot="combobox-content"]');
 
                     this.$items = Array.from(
-                        this.$refs.combobox.querySelectorAll('[data-slot="combobox-item"]')
+                        this.$refs.combobox
+                        .querySelectorAll(
+                            '[data-slot="combobox-item"]')
                     ).map(el => ({
                         el,
-                        text: el.textContent.trim().toLowerCase(),
+                        text: el.textContent.trim()
+                            .toLowerCase(),
                     }));
 
                     if (this.text) {
-                        const defaultItem = this.$items.find(item => item.text === this.text
+                        const defaultItem = this.$items.find(
+                            item => item.text === this.text
                             .toLowerCase());
                         if (!defaultItem) {
-                            console.warn(`Default value "${this.text}" not found in combobox items.`);
+                            console.warn(
+                                `Default value "${this.text}" not found in combobox items.`
+                            );
                             this.text = '';
-                            this.selected = multiple ? [] : null;
+                            this.selected = multiple ? [] :
+                                null;
                         }
                     }
                 },
 
                 search(delay = 0) {
                     setTimeout(() => {
-                        if (this.selected && !this.isMultiple && this.selected
-                            .toLowerCase() === this.text.toLowerCase()) {
+                        if (this.selected && !this
+                            .isMultiple && this.selected
+                            .toLowerCase() === this.text
+                            .toLowerCase()) {
                             return;
                         }
-                        const query = this.text.toLowerCase();
+                        const query = this.text
+                            .toLowerCase();
 
                         let visible = 0;
 
-                        for (const item of this.$items) {
-                            const match = item.text.includes(query);
-                            if (item.el.classList.contains('hidden') === match) {
-                                item.el.classList.toggle('hidden', !match);
+                        for (const item of this
+                                .$items) {
+                            const match = item.text
+                                .includes(query);
+                            if (item.el.classList
+                                .contains('hidden') ===
+                                match) {
+                                item.el.classList
+                                    .toggle('hidden', !
+                                        match);
                             }
 
                             if (match) visible++;
                         }
 
-                        this.$content?.toggleAttribute('data-empty', visible === 0);
+                        this.$content?.toggleAttribute(
+                            'data-empty',
+                            visible === 0);
                     }, delay);
                 },
 
@@ -117,9 +139,12 @@
                             this.text = ''
                         }
                         if (this.selected.includes(item)) {
-                            this.selected = this.selected.filter(i => i !== item);
+                            this.selected = this.selected
+                                .filter(i => i !== item);
                         } else {
-                            this.selected = [...this.selected, item];
+                            this.selected = [...this.selected,
+                                item
+                            ];
                         }
                     } else {
                         this.closeCombobox()
@@ -131,8 +156,10 @@
 
                 clearSearch(delay = 0) {
                     setTimeout(() => {
-                        for (const item of this.$items) {
-                            item.el.classList.remove('hidden')
+                        for (const item of this
+                                .$items) {
+                            item.el.classList.remove(
+                                'hidden')
                         }
                     }, delay);
                 },
@@ -146,7 +173,8 @@
 
                 removeItem(item) {
                     if (this.isMultiple) {
-                        this.selected = this.selected.filter(i => i !== item);
+                        this.selected = this.selected.filter(
+                            i => i !== item);
                     } else if (this.selected === item) {
                         this.selected = null;
                     }

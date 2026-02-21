@@ -11,7 +11,8 @@
     data-slot='combobox-item'
     x-on:click.prevent.stop="selectItem('{{ $value ?? $slot }}')">
     {{ $slot }}
-    <span class='pointer-events-none absolute right-2 flex size-4 items-center justify-center'
+    <span
+        class='pointer-events-none absolute right-2 flex size-4 items-center justify-center'
         x-show="isSelected('{{ $value ?? $slot }}')">
         <x-lucide-check class='pointer-events-none' />
     </span>

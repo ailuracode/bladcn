@@ -11,14 +11,14 @@
         ) }}
         data-slot="checkbox"
         x-on:click="toggle">
-        <span class="pointer-events-none absolute inset-0 flex items-center justify-center"
+        <span
+            class="pointer-events-none absolute inset-0 flex items-center justify-center"
             x-cloak
             x-show="checked">
             <x-lucide-check />
         </span>
     </span>
 </div>
-
 
 @once
     <script>

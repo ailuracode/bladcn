@@ -66,5 +66,6 @@
     x-show="open">
     {{ $slot }}
 
-    <span class="{{ twMerge('absolute size-2.5 rounded-xs rotate-45 bg-foreground', $arrow) }}"></span>
+    <span
+        class="{{ twMerge('absolute size-2.5 rounded-xs rotate-45 bg-foreground', $arrow) }}"></span>
 </div>

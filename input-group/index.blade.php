@@ -13,8 +13,10 @@
             Alpine.data('inputGroup', () => ({
                 $control: null,
                 init() {
-                    this.$control = this.$refs.inputGroup.querySelector(
-                        '[data-slot="input-group-control"]');
+                    this.$control = this.$refs.inputGroup
+                        .querySelector(
+                            '[data-slot="input-group-control"]'
+                        );
                 },
                 focusInput(event) {
                     if (event.target === this.$control) return;

@@ -17,8 +17,9 @@
                 showImage: false,
                 hasFallback: false,
                 init() {
-                    this.hasFallback = !!this.$refs.avatar.querySelector(
-                        '[data-slot=\'avatar-fallback\']');
+                    this.hasFallback = !!this.$refs.avatar
+                        .querySelector(
+                            '[data-slot=\'avatar-fallback\']');
                 },
                 setShowImage(value) {
                     if (this.hasFallback) {
