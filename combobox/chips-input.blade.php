@@ -10,6 +10,4 @@
     x-on:blur='closeCombobox'
     x-on:focus='openCombobox'
     x-on:input.debounce.500ms='search'
-    x-on:keydown.escape.window='closeCombobox'>
-{{ $slot }}
-</input>
+    x-on:keydown.escape.window='closeCombobox' />
