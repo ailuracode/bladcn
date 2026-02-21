@@ -22,7 +22,7 @@
                     if (Array.isArray(value)) return value;
                     if (typeof value === 'string') {
                         return value.split(',').map(v => v
-                        .trim()).filter(v => v);
+                            .trim()).filter(v => v);
                     }
                     return [];
                 },
@@ -37,7 +37,7 @@
                                 const icon = trigger
                                     .querySelector(
                                         '[data-slot="accordion-trigger-icon"]'
-                                        );
+                                    );
                                 this.triggerMap.set(value, {
                                     trigger,
                                     icon
@@ -57,7 +57,7 @@
                         this.$watch('open', (newValue) => {
                             this.triggerMap.forEach((
                                 item, value
-                                ) => {
+                            ) => {
                                 const {
                                     icon
                                 } = item;
@@ -67,7 +67,7 @@
                                             'rotate-180',
                                             newValue ===
                                             value
-                                            );
+                                        );
                                 }
                             });
                         });
