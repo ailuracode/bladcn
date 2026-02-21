@@ -4,7 +4,7 @@
     'transition' => false,
 ])
 
-<div @if ($defaultValue !== $value) x-cloak @endif
+<div @if (!in_array($value, (array) $defaultValue)) x-cloak @endif
     class='overflow-hidden text-sm'
     data-slot='accordion-content'
     x-collapse{{ $transition ? '' : '.duration.0ms' }}
