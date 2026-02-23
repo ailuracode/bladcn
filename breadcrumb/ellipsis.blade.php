@@ -1,4 +1,7 @@
-<span {{ $attributes->twMerge('flex size-9 items-center justify-center') }}
+<span
+    {{ $attributes->merge([
+        'class' => 'flex size-9 items-center justify-center',
+    ]) }}
     aria-hidden="true"
     data-slot="breadcrumb-ellipsis"
     role="presentation">

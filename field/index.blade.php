@@ -17,7 +17,9 @@
         'data-[invalid=true]:text-destructive gap-2 group/field flex w-full data-disabled:opacity-50';
 @endphp
 
-<div {{ $attributes->twMerge($base, $variants['orientation'][$orientation]) }}
+<div {{ $attributes->merge([
+    'class' => $base . ' ' . $variants['orientation'][$orientation],
+]) }}
     data-orientation='{{ $orientation }}'
     data-slot='field'
     role='group'>

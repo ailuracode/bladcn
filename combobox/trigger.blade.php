@@ -1,4 +1,6 @@
-<div {{ $attributes->twMerge('&_svg:not([class*=\'size-\'])]:size-4 relative') }}
+<div {{ $attributes->merge([
+    'class' => '&_svg:not([class*=\'size-\'])]:size-4 relative',
+]) }}
     data-slot='combobox-trigger'
     x-on:click.away='closeCombobox'
     x-on:click='toggleCombobox'

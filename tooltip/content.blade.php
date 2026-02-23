@@ -55,10 +55,10 @@
     );
 @endphp
 
-<div {{ $attributes->twMerge([
-    'absolute z-50 w-fit max-w-xs rounded-md px-3 py-1.5 text-xs',
-    'bg-foreground text-background border-0',
-    $position,
+<div {{ $attributes->merge([
+    'class' =>
+        'absolute z-50 w-fit max-w-xs rounded-md px-3 py-1.5 text-xs bg-foreground text-background border-0 ' .
+        $position,
 ]) }}
     {!! $transition !!}
     data-slot="tooltip-content"
@@ -67,5 +67,5 @@
     {{ $slot }}
 
     <span
-        class="{{ twMerge('absolute size-2.5 rounded-xs rotate-45 bg-foreground', $arrow) }}"></span>
+        class="{{ 'absolute size-2.5 rounded-xs rotate-45 bg-foreground ' . $arrow }}"></span>
 </div>

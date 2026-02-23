@@ -2,7 +2,9 @@
     'delay' => 0,
 ])
 
-<div {{ $attributes->twMerge('relative inline-block w-min') }}
+<div {{ $attributes->merge([
+    'class' => 'relative inline-block w-min',
+]) }}
     data-slot="tooltip"
     x-data="{
         open: false,

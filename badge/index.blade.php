@@ -23,7 +23,9 @@
     $classes = $base . ' ' . ($variants[$variant] ?? $variants['default']);
 @endphp
 
-<x-as-child {{ $attributes->twMerge($classes) }}
+<x-as-child {{ $attributes->merge([
+    'class' => $classes,
+]) }}
     tag='{{ $as }}'>
     {{ $slot }}
 </x-as-child>

@@ -2,7 +2,9 @@
     'text' => 'Previous',
 ])
 
-<x-pagination.link {{ $attributes->twMerge('pl-1.5!') }}
+<x-pagination.link {{ $attributes->merge([
+    'class' => 'pl-1.5!',
+]) }}
     aria-label='Go to previous page'
     size='default'>
     <x-lucide-chevron-left class='cn-rtl-flip'
