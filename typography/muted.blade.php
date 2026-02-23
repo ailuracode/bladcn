@@ -1,3 +1,6 @@
-<p {{ $attributes->twMerge('text-muted-foreground text-sm') }}>
+<p
+    {{ $attributes->merge([
+        'class' => 'text-muted-foreground text-sm',
+    ]) }}>
     {{ $slot }}
 </p>

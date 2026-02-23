@@ -4,7 +4,9 @@
     $base = 'min-w-16 flex-1 outline-none';
 @endphp
 
-<input {{ $attributes->twMerge($base) }}
+<input {{ $attributes->merge([
+    'class' => $base,
+]) }}
     data-slot='combobox-chip-input'
     x-model='text'
     x-on:blur='closeCombobox'

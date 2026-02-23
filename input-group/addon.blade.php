@@ -21,7 +21,9 @@
 
 @endphp
 
-<div {{ $attributes->twMerge($base . ' ' . $alignClasses) }}
+<div {{ $attributes->merge([
+    'class' => $base . ' ' . $alignClasses,
+]) }}
     data-align="{{ $align }}"
     data-slot="input-group-addon"
     role="group"

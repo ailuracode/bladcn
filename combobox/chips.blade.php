@@ -11,7 +11,9 @@
         : '';
 @endphp
 
-<div {{ $attributes->twMerge($base, $disabledStyles) }}
+<div {{ $attributes->merge([
+    'class' => $base . ' ' . $disabledStyles,
+]) }}
     data-slot='combobox-chips'
     o-on:click.away='closeCombobox'
     x-on:click='openCombobox'>

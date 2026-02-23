@@ -2,7 +2,9 @@
     'text' => 'Next',
 ])
 
-<x-pagination.link {{ $attributes->twMerge('pr-1.5!') }}
+<x-pagination.link {{ $attributes->merge([
+    'class' => 'pr-1.5!',
+]) }}
     aria-label='Go to next page'
     size='default'>
     <span class='hidden sm:block'>

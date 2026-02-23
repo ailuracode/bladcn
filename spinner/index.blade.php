@@ -1,3 +1,6 @@
-<x-lucide-loader-2 {{ $attributes->twMerge('size-4 animate-spin') }}
+<x-lucide-loader-2
+    {{ $attributes->merge([
+        'class' => 'size-4 animate-spin',
+    ]) }}
     aria-label='loading'
     role='status' />

@@ -28,9 +28,22 @@
     @disabled($disabled)
     data-slot="toggle"
     x-bind:data-state="state ? 'on' : 'off'"
-    x-data="{
-        state: false
-    }"
+    x-data="_toggle"
     x-on:click="state = !state">
     {{ $slot }}
 </button>
+
+@once
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('_toggle', () => ({
+                state: false,
+                init() {
+                    this.$watch('state', (value) => {
+                        this.$dispatch('change', value);
+                    });
+                },
+            }));
+        });
+    </script>
+@endonce
