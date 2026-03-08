@@ -68,17 +68,16 @@
         x-ref="track">
         <div :style="rangeStyle()"
             class="bg-primary absolute"
-            style="{{ $rangeStyle }}">
-        </div>
+            style="{{ $rangeStyle }}"></div>
     </div>
 
     @foreach ($values as $index => $val)
         <button :style="thumbStyle({{ $index }})"
+            @mousedown="startDrag({{ $index }}, $event)"
             {{ $disabled ? 'disabled' : '' }}
             class="border-ring ring-ring/50 hover:ring-3 focus-visible:ring-3 focus-visible:outline-hidden absolute size-3 rounded-full border bg-white transition"
             style="{{ $thumbStyles[$index] }}"
-            type="button"
-            x-on:mousedown="startDrag({{ $index }}, $event)"></button>
+            type="button"></button>
     @endforeach
 </div>
 
@@ -217,7 +216,7 @@
                         'input', {
                             bubbles: true,
                             detail: {
-                                value: this.values
+                                values: this.values
                             }
                         }));
                 },
@@ -227,7 +226,7 @@
                         'change', {
                             bubbles: true,
                             detail: {
-                                value: this.values
+                                values: this.values
                             }
                         }));
                 }
