@@ -10,6 +10,9 @@ use Illuminate\View\Component;
  * Styled form input component with support for various input types.
  * Only accessible through BladCN ecosystem via <x-bladcn:input>.
  *
+ * Note: BlaseUI doesn't have Input component yet, so BladCN provides it.
+ * Once BlaseUI has Input, this should extend from it.
+ *
  * @property string|null $id - Input ID
  * @property string|null $name - Input name attribute
  * @property string $type - Input type (text, email, password, etc.)

@@ -10,6 +10,9 @@ use Illuminate\View\Component;
  * Container component with predefined styling for cards/panels.
  * Only accessible through BladCN ecosystem via <x-bladcn:card>.
  *
+ * Note: BlaseUI doesn't have Card component yet, so BladCN provides it.
+ * Once BlaseUI has Card, this should extend from it.
+ *
  * @property string|null $title - Card title
  * @property string|null $subtitle - Card subtitle/description
  * @property bool $bordered - Whether to show border

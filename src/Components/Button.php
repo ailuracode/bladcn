@@ -2,15 +2,16 @@
 
 namespace AiluraCode\BladCN\Components;
 
-use Illuminate\View\Component;
 use AiluraCode\BlaseUI\Components\Button as BlaseButton;
 use AiluraCode\BlaseUI\Enums\Button\Type;
+use Illuminate\View\View;
+use Override;
 
 /**
  * BladCN Styled Button Component
  *
- * Extends BlaseUI Button with predefined styling.
- * This component is NOT directly accessible from Laravel.
+ * Wraps BlaseUI Button with predefined styling and additional variants.
+ * Uses BlaseUI internally but adds Tailwind CSS styling layer.
  * Only accessible through BladCN ecosystem via <x-bladcn:button>.
  *
  * @property string|null $variant - Button variant: primary, secondary, danger, ghost, outline
@@ -18,41 +19,49 @@ use AiluraCode\BlaseUI\Enums\Button\Type;
  * @property bool $disabled - Whether button is disabled
  * @property bool $loading - Whether button is in loading state
  */
-class Button extends Component
+class Button extends BlaseButton
 {
-    public ?string $id = null;
-    public ?string $class = null;
     public ?string $variant = 'primary';
     public ?string $size = 'md';
-    public ?string $type = 'button';
     public bool $disabled = false;
     public bool $loading = false;
 
     /**
      * Create a new component instance.
+     *
+     * Extends BlaseUI Button with additional styling properties.
      */
     public function __construct(
         ?string $id = null,
         ?string $class = null,
+        string|Type $type = Type::Button,
         ?string $variant = 'primary',
         ?string $size = 'md',
-        ?string $type = 'button',
         bool $disabled = false,
         bool $loading = false
     ) {
-        $this->id = $id;
-        $this->class = $class;
+        // Pass the class to parent BlaseUI Button
+        // We'll prepend styling classes in the render method
+        parent::__construct(
+            id: $id,
+            class: $class,
+            type: $type
+        );
+
         $this->variant = $variant;
         $this->size = $size;
-        $this->type = $type;
         $this->disabled = $disabled;
         $this->loading = $loading;
     }
 
     /**
-     * Get the view / contents that represent the component.
+     * Render the styled component using BladCN view
+     *
+     * Uses BlaseUI Button internally to render the base component,
+     * but wraps it with BladCN styling.
      */
-    public function render()
+    #[Override]
+    public function render(): View
     {
         return view('bladcn::components.button');
     }
@@ -89,7 +98,7 @@ class Button extends Component
     }
 
     /**
-     * Get complete button classes
+     * Get complete button classes combining variant and size
      */
     public function getButtonClasses(): string
     {

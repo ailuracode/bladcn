@@ -1,4 +1,6 @@
 {{-- BladCN Styled Button Component View --}}
+{{-- Uses BlaseUI Button internally with Tailwind CSS styling --}}
+
 <button
     @if($id) id="{{ $id }}" @endif
     type="{{ $type }}"
