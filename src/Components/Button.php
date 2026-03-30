@@ -2,121 +2,68 @@
 
 namespace AiluraCode\BladCN\Components;
 
-use AiluraCode\BlaseUI\Components\Button as BlaseButton;
-use AiluraCode\BlaseUI\Enums\Button\Type;
-use Illuminate\View\View;
-use Override;
+use AiluraCode\BladCN\Enums\Button\Size;
+use AiluraCode\BladCN\Enums\Button\Variant;
+use AiluraCode\BlaseUi\Components\Button as Base;
+use AiluraCode\BlaseUi\Enums\Button\Type;
+use AiluraCode\BlaseUi\Enums\Interactive\Disabled;
 
-/**
- * BladCN Styled Button Component
- *
- * Wraps BlaseUI Button with predefined styling and additional variants.
- * Uses BlaseUI internally but adds Tailwind CSS styling layer.
- * Only accessible through BladCN ecosystem via <x-bladcn:button>.
- *
- * @property string|null $variant - Button variant: primary, secondary, danger, ghost, outline
- * @property string|null $size - Button size: sm, md, lg, xl
- * @property bool $disabled - Whether button is disabled
- * @property bool $loading - Whether button is in loading state
- */
-class Button extends BlaseButton
+class Button extends Base
 {
-    public ?string $variant = 'primary';
-    public ?string $size = 'md';
-    public bool $disabled = false;
-    public bool $loading = false;
+    protected static string $base = 'focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:aria-invalid:border-destructive/50 rounded-lg border border-transparent bg-clip-padding text-sm font-medium focus-visible:ring-3 aria-invalid:ring-3 [&_svg:not([class*=\'size-\'])]:size-4 inline-flex items-center justify-center whitespace-nowrap transition-all disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none shrink-0 [&_svg]:shrink-0 outline-none group/button select-none';
 
-    /**
-     * Create a new component instance.
-     *
-     * Extends BlaseUI Button with additional styling properties.
-     */
     public function __construct(
-        ?string $id = null,
-        ?string $class = null,
-        string|Type $type = Type::Button,
-        ?string $variant = 'primary',
-        ?string $size = 'md',
-        bool $disabled = false,
-        bool $loading = false
-    ) {
-        // Pass the class to parent BlaseUI Button
-        // We'll prepend styling classes in the render method
+        ?string        $id = null,
+        ?string        $class = null,
+        ?string        $style = null,
+        ?string        $title = null,
+        string|Type    $type = Type::Button,
+        bool|Disabled  $disabled = Disabled::False,
+        string|Variant $variant = Variant::Default,
+        string|Size    $size = Size::Default,
+    )
+    {
+        $_variant = Variant::coerceToValue($variant);
+        $_size = Size::coerceToValue($size);
+
         parent::__construct(
             id: $id,
-            class: $class,
-            type: $type
+            class: $this->mergedClass($_variant, $_size, $class),
+            style: $style,
+            title: $title,
+            type: $type,
+            disabled: $disabled,
         );
 
-        $this->variant = $variant;
-        $this->size = $size;
-        $this->disabled = $disabled;
-        $this->loading = $loading;
+        $this->mergeAttributes([
+            'data-slot' => 'button',
+            'data-size' => $_size->value,
+            'data-variant' => $_variant->value,
+        ]);
     }
 
-    /**
-     * Render the styled component using BladCN view
-     *
-     * Uses BlaseUI Button internally to render the base component,
-     * but wraps it with BladCN styling.
-     */
-    #[Override]
-    public function render(): View
+    private static function mergedClass(Variant $variant, Size $size, ?string $class): string
     {
-        return view('bladcn::components.button');
-    }
+        $variant = match ($variant) {
+            Variant::Default => 'bg-primary text-primary-foreground [a]:hover:bg-primary/80',
+            Variant::Outline => 'border-border bg-background hover:bg-muted hover:text-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 aria-expanded:bg-muted aria-expanded:text-foreground',
+            Variant::Secondary => 'bg-secondary text-secondary-foreground hover:bg-secondary/80 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground',
+            Variant::Ghost => 'hover:bg-muted hover:text-foreground dark:hover:bg-muted/50 aria-expanded:bg-muted aria-expanded:text-foreground',
+            Variant::Destructive => 'bg-destructive/10 hover:bg-destructive/20 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/20 text-destructive focus-visible:border-destructive/40 dark:hover:bg-destructive/30',
+            Variant::Link => 'text-primary underline-offset-4 hover:underline',
+        };
 
-    /**
-     * Get Tailwind classes based on variant and size
-     */
-    public function getVariantClasses(): string
-    {
-        $variants = [
-            'primary' => 'bg-blue-600 hover:bg-blue-700 text-white shadow-sm',
-            'secondary' => 'bg-gray-200 hover:bg-gray-300 text-gray-900',
-            'danger' => 'bg-red-600 hover:bg-red-700 text-white',
-            'ghost' => 'hover:bg-gray-100 text-gray-900',
-            'outline' => 'border border-gray-300 hover:bg-gray-50 text-gray-900',
-        ];
+        $size = match ($size) {
+            Size::Default => 'h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2',
+            Size::XS => 'h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-xs in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*=\'size-\'])]:size-3',
+            Size::SM => 'h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-[0.8rem] in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*=\'size-\'])]:size-3.5',
+            Size::LG => 'h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3',
+            Size::Icon => 'size-8',
+            Size::IconXS => 'size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*=\'size-\'])]:size-3',
+            Size::IconSM => 'size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg',
+            Size::IconLG => 'size-9',
+        };
 
-        return $variants[$this->variant] ?? $variants['primary'];
-    }
-
-    /**
-     * Get Tailwind classes based on size
-     */
-    public function getSizeClasses(): string
-    {
-        $sizes = [
-            'sm' => 'px-3 py-1.5 text-sm',
-            'md' => 'px-4 py-2 text-base',
-            'lg' => 'px-6 py-3 text-lg',
-            'xl' => 'px-8 py-4 text-xl',
-        ];
-
-        return $sizes[$this->size] ?? $sizes['md'];
-    }
-
-    /**
-     * Get complete button classes combining variant and size
-     */
-    public function getButtonClasses(): string
-    {
-        $classes = [
-            'inline-flex items-center justify-center rounded-md font-medium transition-colors',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2',
-            $this->getVariantClasses(),
-            $this->getSizeClasses(),
-        ];
-
-        if ($this->disabled || $this->loading) {
-            $classes[] = 'opacity-50 cursor-not-allowed';
-        }
-
-        if ($this->class) {
-            $classes[] = $this->class;
-        }
-
-        return implode(' ', $classes);
+        return trim(static::$base . ' ' . $variant . ' ' . $size . ' ' . $class);
     }
 }
