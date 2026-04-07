@@ -1,14 +1,12 @@
 <?php
 
-namespace AiluraCode\BladCN;
+namespace AiluraCode\Bladcn;
 
-use AiluraCode\BladCN\Components\Button;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\Component;
-use AiluraCode\BlaseUi\Enums\Button\Type;
 
-class BladCNServiceProvider extends ServiceProvider
+class BladcnServiceProvider extends ServiceProvider
 {
     public function register(): void
     {
@@ -17,6 +15,24 @@ class BladCNServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        Blade::component(Button::class, 'bladcn:button');
+        Blade::anonymousComponentPath(__DIR__.'/../resources/views', 'bladcn');
+
+        Route::get('/bladcn/bladcn.js', function () {
+            return response()->file(
+                __DIR__.'/../resources/js/bladcn.js',
+                ['Content-Type' => 'application/javascript'],
+            );
+        })->name('bladcn.scripts');
+
+        Blade::directive('bladcnScripts', function () {
+            return '
+                <!-- Bladcn Scripts -->
+                <script src="{{ route(\'bladcn.scripts\') }}"></script>
+            ';
+        });
+
+        $this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/bladcn'),
+        ], 'bladcn-views');
     }
 }
