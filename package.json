@@ -1,0 +1,15 @@
+{
+  "name": "bladcn",
+  "version": "1.0.0",
+  "description": "A styled Blade component library built on top of BlaseUI",
+  "scripts": {
+    "format:blade": "prettier --write \"src/**/*.php\" \"resources/**/*.blade.php\"",
+    "format:blade:check": "prettier --check \"src/**/*.php\" \"resources/**/*.blade.php\"",
+    "format": "npm run format:blade",
+    "format:check": "npm run format:blade:check"
+  },
+  "devDependencies": {
+    "@shufo/prettier-plugin-blade": "^0.21.0",
+    "prettier": "^3.0.0"
+  }
+}
