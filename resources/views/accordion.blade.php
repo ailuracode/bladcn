@@ -1,7 +1,7 @@
 @blaze(fold: true)
 
-@use(AiluraCode\Bladcn\Enums\Basic\Transition)
 @use(AiluraCode\Bladcn\Enums\Accordion\Type)
+@use(AiluraCode\Bladcn\Enums\Basic\Transition)
 
 @props([
     'id' => null,
@@ -16,7 +16,10 @@
     $type = Type::coerceFrom($type);
     $base = 'flex w-full flex-col';
     $classes = [$base, $class];
-
+    $hasChange =
+        $attributes->has('x-on:change') || $attributes->has('wire:change');
+    $model = $attributes->wire('model');
+    $modelName = $model?->value();
     $attrs = [
         'id' => $id,
         'style' => $style,
@@ -26,87 +29,72 @@
 @endphp
 
 <div {{ $attributes->class($classes)->merge($attrs) }}
-    x-data="accordion(@js($type->toHtml()), @js($defaultValue))">
-    {{ $slot }}
+    x-data="accordion(@js($type->toHtml()), @js($defaultValue), @js($hasChange), @entangle($model))"> {{ $slot }}
 </div>
 
 @once
     <script>
         document.addEventListener('alpine:init', () => {
-            Alpine.data('accordion', (type, defaultValue) => ({
-                open: type === 'single' ? null : [],
-                isSingleMode: type === 'single',
-                triggerMap: new Map(),
-                parseDefaultValues(value) {
-                    if (!value) return [];
-                    if (Array.isArray(value)) return value;
-                    if (typeof value === 'string') {
-                        return value.split(',').map(v => v
-                            .trim()).filter(v => v);
-                    }
-                    return [];
-                },
-                buildTriggerMap() {
-                    this.$el.querySelectorAll(
-                            '[data-slot="accordion-trigger"]')
-                        .forEach(trigger => {
-                            const value = trigger
-                                .getAttribute(
-                                    'data-accordion-value');
-                            if (value) {
-                                const icon = trigger
-                                    .querySelector(
-                                        '[data-slot="accordion-trigger-icon"]'
-                                    );
-                                this.triggerMap.set(value, {
-                                    trigger,
-                                    icon
-                                });
-                            }
-                        });
-                },
+            Alpine.data('accordion', (type, defaultValue, hasChange =
+                undefined, model = undefined) => ({
+                type,
+                open: type === 'single' ? undefined : [],
+                hasChange,
+                model,
+
                 init() {
-                    this.buildTriggerMap();
-                    const valuesToToggle = this
-                        .parseDefaultValues(defaultValue);
-                    if (valuesToToggle.length > 0) {
-                        valuesToToggle.forEach(value => this
-                            .toggle(value));
-                    }
-                    if (this.isSingleMode) {
-                        this.$watch('open', (newValue) => {
-                            this.triggerMap.forEach((
-                                item, value
-                            ) => {
-                                const {
-                                    icon
-                                } = item;
-                                if (icon) {
-                                    icon.classList
-                                        .toggle(
-                                            'rotate-180',
-                                            newValue ===
-                                            value
-                                        );
-                                }
-                            });
+                    this.toArray(defaultValue).forEach(v => this
+                        .toggle(v));
+
+                    if (this.model !== undefined) {
+                        this.$watch('open', (value) => {
+                            this.model = value;
                         });
                     }
+
+                    if (this.hasChange) {
+                        this.$watch('open', (value) => {
+                            this.$dispatch('change',
+                                value);
+                        })
+                    }
                 },
+
                 toggle(value) {
-                    if (this.isSingleMode) {
+                    if (this.type === 'single') {
                         this.open = this.open === value ? null :
                             value;
+                        return;
+                    }
+
+                    const i = this.open.indexOf(value);
+
+                    if (i === -1) {
+                        this.open.push(value);
                     } else {
-                        const index = this.open.indexOf(value);
-                        index > -1 ? this.open.splice(index,
-                            1) : this.open.push(value);
+                        this.open.splice(i, 1);
                     }
                 },
+
                 isSelected(value) {
-                    return this.isSingleMode ? this.open ===
-                        value : this.open.includes(value);
+                    return this.type === 'single' ?
+                        this.open === value :
+                        this.open.includes(value);
                 },
+
+                toArray(value) {
+                    if (!value) return [];
+                    if (Array.isArray(value)) return value;
+
+                    if (typeof value === 'string') {
+                        return value
+                            .split(',')
+                            .map(v => v.trim())
+                            .filter(Boolean);
+                    }
+
+                    return [];
+                }
             }));
         });
     </script>
