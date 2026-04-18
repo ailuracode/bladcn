@@ -1,113 +1,105 @@
 @blaze(fold: true)
 
-@use(AiluraCode\Bladcn\Enums\Basic\Transition)
-@use(AiluraCode\Bladcn\Enums\Accordion\Type)
-
 @props([
     'id' => null,
     'class' => null,
     'style' => null,
-    'type' => Type::Multiple,
+    'type' => 'multiple',
     'defaultValue' => null,
-    'transition' => Transition::False,
+    'transition' => true,
 ])
 
 @php
-    $type = Type::coerceFrom($type);
+    bladcnOptionsValidator('accordion', [
+        'type' => [
+            'value' => $type,
+            'options' => ['multiple', 'single'],
+        ],
+        'transition' => [
+            'value' => $transition,
+            'options' => [true, false],
+        ],
+    ]);
+
+$defaults = bladcnSplit($defaultValue);
+    $hasChangeEvent = bladcnHasEvent($attributes, 'change');
+    $hasToggleEvent = bladcnHasEvent($attributes, 'toggle');
+
     $base = 'flex w-full flex-col';
     $classes = [$base, $class];
 
-    $attrs = [
+    $bladeAttrs = [
         'id' => $id,
         'style' => $style,
         'data-slot' => 'accordion',
-        'data-type' => $type->toHtml(),
+        'data-type' => $type,
+    ];
+
+    $alpineProps = [
+        'type' => $type,
+        'defaults' => $defaults,
+        'events' => [
+            'change' => $hasChangeEvent,
+            'toggle' => $hasToggleEvent,
+        ],
     ];
 @endphp
 
-<div {{ $attributes->class($classes)->merge($attrs) }}
-    x-data="accordion(@js($type->toHtml()), @js($defaultValue))">
+<div {{ $attributes->class($classes)->merge($bladeAttrs) }}
+    x-data="accordion(@js($alpineProps))">
     {{ $slot }}
 </div>
 
-@once
+@pushonce('bladcn-scripts')
     <script>
         document.addEventListener('alpine:init', () => {
-            Alpine.data('accordion', (type, defaultValue) => ({
-                open: type === 'single' ? null : [],
+            Alpine.data('accordion', ({
+                type,
+                defaults,
+                events,
+            }) => ({
                 isSingleMode: type === 'single',
-                triggerMap: new Map(),
-                parseDefaultValues(value) {
-                    if (!value) return [];
-                    if (Array.isArray(value)) return value;
-                    if (typeof value === 'string') {
-                        return value.split(',').map(v => v
-                            .trim()).filter(v => v);
-                    }
-                    return [];
-                },
-                buildTriggerMap() {
-                    this.$el.querySelectorAll(
-                            '[data-slot="accordion-trigger"]')
-                        .forEach(trigger => {
-                            const value = trigger
-                                .getAttribute(
-                                    'data-accordion-value');
-                            if (value) {
-                                const icon = trigger
-                                    .querySelector(
-                                        '[data-slot="accordion-trigger-icon"]'
-                                    );
-                                this.triggerMap.set(value, {
-                                    trigger,
-                                    icon
-                                });
-                            }
-                        });
-                },
-                init() {
-                    this.buildTriggerMap();
-                    const valuesToToggle = this
-                        .parseDefaultValues(defaultValue);
-                    if (valuesToToggle.length > 0) {
-                        valuesToToggle.forEach(value => this
-                            .toggle(value));
-                    }
-                    if (this.isSingleMode) {
-                        this.$watch('open', (newValue) => {
-                            this.triggerMap.forEach((
-                                item, value
-                            ) => {
-                                const {
-                                    icon
-                                } = item;
-                                if (icon) {
-                                    icon.classList
-                                        .toggle(
-                                            'rotate-180',
-                                            newValue ===
-                                            value
-                                        );
-                                }
+                expandedItems: type === 'single' ?
+                    defaults.slice(0, 1) : [...defaults],
+                events,
+
+init() {
+                    if (this.events.change) {
+                        this.$watch('expandedItems', (value) => {
+                            this.$dispatch('change', {
+                                expandedItems: value,
+                                mode: this.isSingleMode ? 'single' : 'multiple',
                             });
                         });
                     }
                 },
+
                 toggle(value) {
-                    if (this.isSingleMode) {
-                        this.open = this.open === value ? null :
-                            value;
+                    const isOpen = this.expandedItems.includes(
+                        value);
+
+                    if (isOpen) {
+                        this.expandedItems = this.expandedItems
+                            .filter((v) => v !== value);
                     } else {
-                        const index = this.open.indexOf(value);
-                        index > -1 ? this.open.splice(index,
-                            1) : this.open.push(value);
+                        this.expandedItems = this.isSingleMode ?
+                            [value] : [...this.expandedItems,
+                                value
+                            ];
+                    }
+
+                    if (this.events.toggle) {
+                        this.$dispatch('toggle', {
+                            value,
+                            open: !isOpen
+                        });
                     }
                 },
+
                 isSelected(value) {
-                    return this.isSingleMode ? this.open ===
-                        value : this.open.includes(value);
+                    return this.expandedItems.includes(value);
                 },
             }));
         });
     </script>
-@endonce
+@endpushonce

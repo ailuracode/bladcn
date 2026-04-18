@@ -27,8 +27,9 @@ class BladcnServiceProvider extends ServiceProvider
         Blade::directive('bladcnScripts', function () {
             return '
                 <!-- Bladcn Scripts -->
-                <script src="{{ route(\'bladcn.scripts\') }}"></script>
-            ';
+                <script src="<?php echo e(route(\'bladcn.scripts\')); ?>"></script>
+                <?php echo $__env->yieldPushContent(\'bladcn-scripts\'); ?>
+                ';
         });
 
         $this->publishes([

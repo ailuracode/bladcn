@@ -38,7 +38,7 @@ composer require mallardduck/blade-lucide-icons
 ## Components
 
 | Component   | Description                    |
-|-------------|--------------------------------|
+| ----------- | ------------------------------ |
 | `accordion` | Main wrapper with Alpine state |
 | `item`      | Individual accordion item      |
 | `trigger`   | Clickable header button        |
@@ -48,19 +48,19 @@ composer require mallardduck/blade-lucide-icons
 
 ### Accordion Props
 
-| Prop           | Type                  | Default             | Description                       |
-|----------------|-----------------------|---------------------|-----------------------------------|
-| `id`           | `string\|null`        | `null`              | The element ID                    |
-| `class`        | `string\|null`        | `null`              | Additional CSS classes            |
-| `style`        | `string\|null`        | `null`              | Inline styles                     |
-| `type`         | `Type\|string`        | `Type::Multiple`    | Single or multiple expansion mode |
-| `defaultValue` | `string\|array\|null` | `null`              | Initially expanded item value(s)  |
-| `transition`   | `Transition\|bool`    | `Transition::False` | Enable/disable collapse animation |
+| Prop           | Type                  | Default      | Description                       |
+| -------------- | --------------------- | ------------ | --------------------------------- |
+| `id`           | `string\|null`        | `null`       | The element ID                    |
+| `class`        | `string\|null`        | `null`       | Additional CSS classes            |
+| `style`        | `string\|null`        | `null`       | Inline styles                     |
+| `type`         | `Type\|string`        | `'multiple'` | Single or multiple expansion mode |
+| `defaultValue` | `string\|array\|null` | `null`       | Initially expanded item value(s)  |
+| `transition`   | `bool`                | `true`       | Enable/disable collapse animation |
 
 ### Item Props
 
 | Prop    | Type           | Default | Description            |
-|---------|----------------|---------|------------------------|
+| ------- | -------------- | ------- | ---------------------- |
 | `id`    | `string\|null` | `null`  | The element ID         |
 | `class` | `string\|null` | `null`  | Additional CSS classes |
 | `style` | `string\|null` | `null`  | Inline styles          |
@@ -69,7 +69,7 @@ composer require mallardduck/blade-lucide-icons
 ### Trigger Props
 
 | Prop       | Type             | Default           | Description                     |
-|------------|------------------|-------------------|---------------------------------|
+| ---------- | ---------------- | ----------------- | ------------------------------- |
 | `id`       | `string\|null`   | `null`            | The element ID                  |
 | `class`    | `string\|null`   | `null`            | Additional CSS classes          |
 | `style`    | `string\|null`   | `null`            | Inline styles                   |
@@ -79,26 +79,10 @@ composer require mallardduck/blade-lucide-icons
 ### Content Props
 
 | Prop    | Type           | Default | Description            |
-|---------|----------------|---------|------------------------|
+| ------- | -------------- | ------- | ---------------------- |
 | `id`    | `string\|null` | `null`  | The element ID         |
 | `class` | `string\|null` | `null`  | Additional CSS classes |
 | `style` | `string\|null` | `null`  | Inline styles          |
-
-## Enums
-
-### Type Enum (`AiluraCode\Bladcn\Enums\Accordion\Type`)
-
-| Case       | Value      | Description                |
-|------------|------------|----------------------------|
-| `Single`   | `single`   | Only one item can be open  |
-| `Multiple` | `multiple` | Multiple items can be open |
-
-### Transition Enum (`AiluraCode\Bladcn\Enums\Basic\Transition`)
-
-| Case    | Description                         |
-|---------|-------------------------------------|
-| `True`  | Animated collapse with `x-collapse` |
-| `False` | Instant toggle (no animation)       |
 
 ## Data Attributes
 
@@ -132,7 +116,7 @@ composer require mallardduck/blade-lucide-icons
 
 ```bladehtml
 
-<x-bladcn::accordion :default-dalue="['item-1', 'item-3']">
+<x-bladcn::accordion :default-value="['item-1', 'item-3']">
     <x-bladcn::accordion.item value="item-1">
         <x-bladcn::accordion.trigger>First Item</x-bladcn::accordion.trigger>
         <x-bladcn::accordion.content>
