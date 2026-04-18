@@ -6,24 +6,29 @@
     'id' => null,
     'class' => null,
     'style' => null,
-    'orientation' => Orientation::Horizontal,
+    'orientation' => 'horizontal',
 ])
 
 @php
-    $orientation = Orientation::coerceFrom($orientation);
+    bladcnOptionsValidator('button-group', [
+        'orientation' => [
+            'value' => $orientation,
+            'options' => ['vertical', 'horizontal'],
+        ],
+    ]);
     $base =
         'has-[>[data-slot=button-group]]:gap-2 has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-lg flex w-fit items-stretch *:focus-visible:z-10 *:focus-visible:relative [&>[data-slot=select-trigger]:not([class*=\'w-\'])]:w-fit [&>input]:flex-1';
     $classes = match ($orientation) {
-        Orientation::Vertical
+        'vertical'
             => '[&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-lg! flex-col [&>*:not(:first-child)]:rounded-t-none [&>*:not(:first-child)]:border-t-0 [&>*:not(:last-child)]:rounded-b-none',
-        default
+        'horizontal'
             => '[&>[data-slot]:not(:has(~[data-slot]))]:rounded-r-lg! [&>*:not(:first-child)]:rounded-l-none [&>*:not(:first-child)]:border-l-0 [&>*:not(:last-child)]:rounded-r-none',
     };
     $classes = [$base, $classes, $class];
     $attrs = [
         'id' => $id,
         'style' => $style,
-        'data-orientation' => $orientation->toHtml(),
+        'data-orientation' => $orientation,
         'data-slot' => 'button-group',
         'role' => 'group',
     ];
