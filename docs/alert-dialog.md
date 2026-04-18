@@ -1,7 +1,6 @@
 # Alert Dialog Component
 
-The `AlertDialog` component is a modal dialog for important confirmations, alerts, or calls to action. It uses Alpine.js
-for state management.
+The `AlertDialog` component is a modal dialog for important confirmations, alerts, or calls to action. It uses Alpine.js for state management.
 
 ## Usage
 
@@ -25,73 +24,78 @@ for state management.
 
 ### Root (`alert-dialog`)
 
-| Prop | Type | Default | Description |
-| ------- | ----------- | ------- | ----------- | ---------------------- | ------------------ |
-| `id`    | `string     | null`   | `null`      | The dialog ID |
-| `class` | `string     | null`   | `null`      | Additional CSS classes |
-| `style` | `string     | null`   | `null`      | Inline styles |
-| `open`  | `Booleanish | string  | bool`       | `false`                | Initial open state |
+| Prop         | Type           | Default | Description                              |
+| ------------ | -------------- | ------- | ---------------------------------------- |
+| `id`         | `string\|null` | `null`  | The dialog ID                            |
+| `class`      | `string\|null` | `null`  | Additional CSS classes                   |
+| `style`      | `string\|null` | `null`  | Inline styles                            |
+| `open`       | `bool`         | `false` | Initial open state                       |
+| `persistent` | `bool`         | `false` | Prevents closing on escape/overlay click |
+| `transition` | `bool`         | `true`  | Enable/disable animations                |
 
 ### Content (`alert-dialog.content`)
 
-| Prop | Type | Default | Description |
-| ------- | ------- | ------- | --------------- | ---------------------- |
-| `id`    | `string | null`   | `null`          | The content ID |
-| `class` | `string | null`   | `null`          | Additional CSS classes |
-| `style` | `string | null`   | `null`          | Inline styles |
-| `size`  | `Size   | string` | `Size::Default` | Dialog size |
+| Prop    | Type           | Default     | Description                   |
+| ------- | -------------- | ----------- | ----------------------------- |
+| `id`    | `string\|null` | `null`      | The content ID                |
+| `class` | `string\|null` | `null`      | Additional CSS classes        |
+| `style` | `string\|null` | `null`      | Inline styles                 |
+| `size`  | `string`       | `'default'` | Dialog size (`default`, `sm`) |
+
+### Trigger (`alert-dialog.trigger`)
+
+| Prop      | Type           | Default | Description             |
+| --------- | -------------- | ------- | ----------------------- |
+| `id`      | `string\|null` | `null`  | The trigger ID          |
+| `class`   | `string\|null` | `null`  | Additional CSS classes  |
+| `style`   | `string\|null` | `null`  | Inline styles           |
+| `asChild` | `bool`         | `false` | Render as child element |
 
 ### Action (`alert-dialog.action`)
 
-| Prop | Type | Default | Description |
-| --------- | -------- | ------- | ------------------ | ---------------------- |
-| `id`      | `string  | null`   | `null`             | The action ID |
-| `class`   | `string  | null`   | `null`             | Additional CSS classes |
-| `style`   | `string  | null`   | `null`             | Inline styles |
-| `variant` | `Variant | string` | `Variant::Default` | Button variant |
-| `size`    | `Size    | string` | `Size::Default`    | Button size |
+| Prop      | Type           | Default     | Description             |
+| --------- | -------------- | ----------- | ----------------------- |
+| `id`      | `string\|null` | `null`      | The action ID           |
+| `class`   | `string\|null` | `null`      | Additional CSS classes  |
+| `style`   | `string\|null` | `null`      | Inline styles           |
+| `variant` | `string`       | `'default'` | Button variant          |
+| `size`    | `string`       | `'default'` | Button size             |
+| `asChild` | `bool`         | `false`     | Render as child element |
 
 ### Cancel (`alert-dialog.cancel`)
 
-| Prop | Type | Default | Description |
-| --------- | -------- | ------- | ------------------ | ---------------------- |
-| `id`      | `string  | null`   | `null`             | The cancel ID |
-| `class`   | `string  | null`   | `null`             | Additional CSS classes |
-| `style`   | `string  | null`   | `null`             | Inline styles |
-| `variant` | `Variant | string` | `Variant::Outline` | Button variant |
-| `size`    | `Size    | string` | `Size::Default`    | Button size |
-
-### Cancel (`alert-dialog.cancel`)
-
-| Prop | Type | Default | Description |
-| --------- | -------- | ------- | ------------------ | ---------------------- |
-| `id`      | `string  | null`   | `null`             | The cancel ID |
-| `class`   | `string  | null`   | `null`             | Additional CSS classes |
-| `style`   | `string  | null`   | `null`             | Inline styles |
-| `variant` | `Variant | string` | `Variant::Outline` | Button variant |
-| `size`    | `Size    | string` | `Size::Default`    | Button size |
-
-### Cancel (`alert-dialog.cancel`)
-
-| Prop | Type | Default | Description |
-| --------- | -------- | ------- | ------------------ | ---------------------- |
-| `id`      | `string  | null`   | `null`             | The cancel ID |
-| `class`   | `string  | null`   | `null`             | Additional CSS classes |
-| `style`   | `string  | null`   | `null`             | Inline styles |
-| `variant` | `Variant | string` | `Variant::Outline` | Button variant |
-| `size`    | `Size    | string` | `Size::Default`    | Button size |
+| Prop      | Type           | Default     | Description             |
+| --------- | -------------- | ----------- | ----------------------- |
+| `id`      | `string\|null` | `null`      | The cancel ID           |
+| `class`   | `string\|null` | `null`      | Additional CSS classes  |
+| `style`   | `string\|null` | `null`      | Inline styles           |
+| `variant` | `string`       | `'outline'` | Button variant          |
+| `size`    | `string`       | `'default'` | Button size             |
+| `asChild` | `bool`         | `false`     | Render as child element |
 
 ## Sizes
 
-| Size      | Description                           |
-|-----------|---------------------------------------|
-| `default` | Standard width (max-w-xs sm:max-w-sm) |
-| `sm`      | Small width (max-w-xs)                |
+| Size      | Description    |
+| --------- | -------------- |
+| `default` | Standard width |
+| `sm`      | Small width    |
+
+## Events
+
+The component dispatches events that can be captured with Alpine.js directives (`@eventname`) or Livewire (`wire:eventname`).
+
+| Event           | Payload          | Description             |
+| --------------- | ---------------- | ----------------------- |
+| `open`          | `null`           | When the dialog opens   |
+| `close`         | `null`           | When the dialog closes  |
+| `toggle`        | `{ open: bool }` | On every state change   |
+| `escape`        | `null`           | When ESC key is pressed |
+| `overlay-click` | `null`           | When overlay is clicked |
 
 ```bladehtml
-
-<x-bladcn::alert-dialog.content size="default">...</x-bladcn::alert-dialog.content>
-<x-bladcn::alert-dialog.content size="sm">...</x-bladcn::alert-dialog.content>
+<x-bladcn::alert-dialog @open="console.log('opened')" @close="console.log('closed')" @toggle="console.log($event.detail)">
+    ...
+</x-bladcn::alert-dialog>
 ```
 
 ## Subcomponents
@@ -100,15 +104,7 @@ for state management.
 
 The trigger component toggles the dialog open state. Supports `asChild` to merge attributes into child elements.
 
-| Prop | Type | Default | Description |
-| --------- | -------- | ------- | ---------------- | ---------------------- |
-| `id`      | `string  | null`   | `null`           | The trigger ID |
-| `class`   | `string  | null`   | `null`           | Additional CSS classes |
-| `style`   | `string  | null`   | `null`           | Inline styles |
-| `asChild` | `AsChild | string` | `AsChild::False` | Render as child |
-
 ```bladehtml
-
 <x-bladcn::alert-dialog>
     <x-bladcn::alert-dialog.trigger>
         <x-bladcn::button>Open Dialog</x-bladcn::button>
@@ -116,20 +112,15 @@ The trigger component toggles the dialog open state. Supports `asChild` to merge
     <x-bladcn::alert-dialog.content>
         <x-bladcn::alert-dialog.title>Confirm</x-bladcn::alert-dialog.title>
         <x-bladcn::alert-dialog.description>Are you sure?</x-bladcn::alert-dialog.description>
-        <x-bladcn::alert-dialog.footer>
-            <x-bladcn::alert-dialog.action>OK</x-bladcn::alert-dialog.action>
-            <x-bladcn::alert-dialog.cancel>Cancel</x-bladcn::alert-dialog.cancel>
-        </x-bladcn::alert-dialog.footer>
     </x-bladcn::alert-dialog.content>
 </x-bladcn::alert-dialog>
 ```
 
-With `asChild` to merge click handler:
+With `asChild`:
 
 ```bladehtml
-
 <x-bladcn::alert-dialog>
-    <x-bladcn::alert-dialog.trigger asChild>
+    <x-bladcn::alert-dialog.trigger as-child>
         <x-bladcn::button>Delete Account</x-bladcn::button>
     </x-bladcn::alert-dialog.trigger>
     <x-bladcn::alert-dialog.content>
@@ -142,14 +133,12 @@ With `asChild` to merge click handler:
 ### Title
 
 ```bladehtml
-
 <x-bladcn::alert-dialog.title>Confirm</x-bladcn::alert-dialog.title>
 ```
 
 ### Description
 
 ```bladehtml
-
 <x-bladcn::alert-dialog.description>Are you sure?</x-bladcn::alert-dialog.description>
 ```
 
@@ -158,7 +147,6 @@ With `asChild` to merge click handler:
 Groups title and description with optional media.
 
 ```bladehtml
-
 <x-bladcn::alert-dialog.header>
     <x-bladcn::alert-dialog.media>...</x-bladcn::alert-dialog.media>
     <x-bladcn::alert-dialog.title>...</x-bladcn::alert-dialog.title>
@@ -171,7 +159,6 @@ Groups title and description with optional media.
 Contains action and cancel buttons with responsive layout.
 
 ```bladehtml
-
 <x-bladcn::alert-dialog.footer>
     <x-bladcn::alert-dialog.action>OK</x-bladcn::alert-dialog.action>
     <x-bladcn::alert-dialog.cancel>Cancel</x-bladcn::alert-dialog.cancel>
@@ -183,19 +170,10 @@ Contains action and cancel buttons with responsive layout.
 Displays icons or media content in the dialog header.
 
 ```bladehtml
-
 <x-bladcn::alert-dialog.media>
-    <x-icon name="warning"/>
+    <svg>...</svg>
 </x-bladcn::alert-dialog.media>
 ```
-
-### Overlay
-
-The overlay component provides the backdrop behind the dialog. It is automatically included in the content component.
-
-### Portal
-
-The portal component wraps content for proper modal positioning. It is automatically included in the content component.
 
 ## Data Attributes
 
@@ -210,37 +188,6 @@ The portal component wraps content for proper modal positioning. It is automatic
 - `data-slot="alert-dialog-overlay"` - Overlay element
 - `data-slot="alert-dialog-portal"` - Portal element
 - `data-size` - Current size value
-
-## JavaScript Helpers
-
-The component exposes global helper functions to programmatically control the dialog from JavaScript. The root element
-must have an `id` attribute for these to work.
-
-```javascript
-bladcn.alertDialog.open("dialog-id");
-bladcn.alertDialog.close("dialog-id");
-bladcn.alertDialog.toggle("dialog-id");
-```
-
-### Programmatic Control
-
-```bladehtml
-<x-bladcn::alert-dialog id="delete-account">
-    <x-bladcn::alert-dialog.trigger>
-        <x-bladcn::button>Delete Account</x-bladcn::button>
-    </x-bladcn::alert-dialog.trigger>
-    <x-bladcn::alert-dialog.content>
-        <x-bladcn::alert-dialog.title>Delete Account</x-bladcn::alert-dialog.title>
-        <x-bladcn::alert-dialog.description>Are you sure?</x-bladcn::alert-dialog.description>
-        <x-bladcn::alert-dialog.footer>
-            <x-bladcn::alert-dialog.action>Delete</x-bladcn::alert-dialog.action>
-            <x-bladcn::alert-dialog.cancel>Cancel</x-bladcn::alert-dialog.cancel>
-        </x-bladcn::alert-dialog.footer>
-    </x-bladcn::alert-dialog.content>
-</x-bladcn::alert-dialog>
-
-<button onclick="bladcn.alertDialog.open('delete-account')">Open from JS</button>
-```
 
 ## Examples
 
@@ -264,48 +211,9 @@ bladcn.alertDialog.toggle("dialog-id");
 </x-bladcn::alert-dialog>
 ```
 
-### With Icon
-
-```bladehtml
-<x-bladcn::alert-dialog>
-    <x-bladcn::alert-dialog.trigger>
-        <x-bladcn::button>Open</x-bladcn::button>
-    </x-bladcn::alert-dialog.trigger>
-    <x-bladcn::alert-dialog.content>
-        <x-bladcn::alert-dialog.header>
-            <x-bladcn::alert-dialog.media>
-                <x-icon name="warning" class="size-6"/>
-            </x-bladcn::alert-dialog.media>
-            <x-bladcn::alert-dialog.title>Confirm</x-bladcn::alert-dialog.title>
-            <x-bladcn::alert-dialog.description>Proceed?</x-bladcn::alert-dialog.description>
-        </x-bladcn::alert-dialog.header>
-        <x-bladcn::alert-dialog.footer>
-            <x-bladcn::alert-dialog.action>Confirm</x-bladcn::alert-dialog.action>
-            <x-bladcn::alert-dialog.cancel>Cancel</x-bladcn::alert-dialog.cancel>
-        </x-bladcn::alert-dialog.footer>
-    </x-bladcn::alert-dialog.content>
-</x-bladcn::alert-dialog>
-```
-
-### Small Dialog
-
-```bladehtml
-
-<x-bladcn::alert-dialog>
-    <x-bladcn::alert-dialog.trigger>
-        <x-bladcn::button>Open</x-bladcn::button>
-    </x-bladcn::alert-dialog.trigger>
-    <x-bladcn::alert-dialog.content size="sm">
-        <x-bladcn::alert-dialog.title>Success</x-bladcn::alert-dialog.title>
-        <x-bladcn::alert-dialog.action>OK</x-bladcn::alert-dialog.action>
-    </x-bladcn::alert-dialog.content>
-</x-bladcn::alert-dialog>
-```
-
 ### With Custom Variant
 
 ```bladehtml
-
 <x-bladcn::alert-dialog>
     <x-bladcn::alert-dialog.trigger>
         <x-bladcn::button>Open</x-bladcn::button>
@@ -317,6 +225,33 @@ bladcn.alertDialog.toggle("dialog-id");
             <x-bladcn::alert-dialog.action variant="destructive">Continue</x-bladcn::alert-dialog.action>
             <x-bladcn::alert-dialog.cancel>Go Back</x-bladcn::alert-dialog.cancel>
         </x-bladcn::alert-dialog.footer>
+    </x-bladcn::alert-dialog.content>
+</x-bladcn::alert-dialog>
+```
+
+### Small Dialog
+
+```bladehtml
+<x-bladcn::alert-dialog>
+    <x-bladcn::alert-dialog.trigger>
+        <x-bladcn::button>Open</x-bladcn::button>
+    </x-bladcn::alert-dialog.trigger>
+    <x-bladcn::alert-dialog.content size="sm">
+        <x-bladcn::alert-dialog.title>Success</x-bladcn::alert-dialog.title>
+        <x-bladcn::alert-dialog.action>OK</x-bladcn::alert-dialog.action>
+    </x-bladcn::alert-dialog.content>
+</x-bladcn::alert-dialog>
+```
+
+### With Events
+
+```bladehtml
+<x-bladcn::alert-dialog @toggle="console.log($event.detail)">
+    <x-bladcn::alert-dialog.trigger>
+        <x-bladcn::button>Open</x-bladcn::button>
+    </x-bladcn::alert-dialog.trigger>
+    <x-bladcn::alert-dialog.content>
+        <x-bladcn::alert-dialog.title>Title</x-bladcn::alert-dialog.title>
     </x-bladcn::alert-dialog.content>
 </x-bladcn::alert-dialog>
 ```

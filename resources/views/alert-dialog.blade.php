@@ -1,35 +1,62 @@
 @blaze(fold: true)
 
-@use(AiluraCode\Bladcn\Enums\Basic\Booleanish)
-@use(AiluraCode\Bladcn\Enums\Basic\Persistent)
-@use(AiluraCode\Bladcn\Enums\Basic\Transition)
-
 @props([
     'id' => null,
     'class' => null,
     'style' => null,
     'open' => false,
-    'persistent' => Persistent::False,
-    'transition' => Transition::False,
+    'persistent' => false,
+    'transition' => true,
 ])
 
 @php
-    $isOpen = Booleanish::coerceFrom($open)->isTrue();
-    $classes = [$class];
-    $attrs = ['id' => $id, 'style' => $style, 'data-slot' => 'alert-dialog'];
+    bladcnOptionsValidator('alert-dialog', [
+        'open' => ['value' => $open, 'options' => [true, false]],
+        'persistent' => ['value' => $persistent, 'options' => [true, false]],
+        'transition' => ['value' => $transition, 'options' => [true, false]],
+    ]);
+
+    $events = bladcnHasEvents($attributes, [
+        'open',
+        'close',
+        'toggle',
+        'escape',
+        'overlay-click',
+    ]);
+
+    $bladeAttrs = [
+        'id' => $id,
+        'style' => $style,
+        'data-slot' => 'alert-dialog',
+    ];
+
+    $alpineProps = [
+        'open' => $open,
+        'persistent' => $persistent,
+        'transition' => $transition,
+        'events' => $events,
+    ];
 @endphp
 
-<div {{ $attributes->class($classes)->merge($attrs) }}
-    x-data="alertDialog({{ $isOpen ? 'true' : 'false' }})">
+<div {{ $attributes->class([$class])->merge($bladeAttrs) }}
+    x-data="alertDialog(@js($alpineProps))">
     {{ $slot }}
 </div>
 
-@once
+@pushonce('bladcn-scripts')
     <script>
-        addEventListener('alpine:init', () => {
-            window._bladcnSlots.push('alert-dialog');
-            Alpine.data('alertDialog', (initialOpen = false) => ({
-                open: initialOpen,
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('alertDialog', ({
+                open,
+                persistent,
+                transition,
+                events,
+            }) => ({
+                open,
+                persistent,
+                transition,
+                events,
+
                 init() {
                     this.$watch('open', () => {
                         if (this.open) {
@@ -41,12 +68,35 @@
                                     ?.focus();
                             });
                         }
+
+                        if (this.events.open) {
+                            this.$dispatch('open');
+                        }
+                        if (this.events.toggle) {
+                            this.$dispatch('toggle', {
+                                open: this.open
+                            });
+                        }
                     });
                 },
+
                 close() {
                     this.open = false;
+
+                    if (this.events.close) {
+                        this.$dispatch('close');
+                    }
+                },
+
+                handleEvent(eventName) {
+                    if (!this.persistent) {
+                        if (this.events[eventName]) {
+                            this.$dispatch(eventName);
+                        }
+                        this.close();
+                    }
                 },
             }));
         });
     </script>
-@endonce
+@endpushonce

@@ -1,28 +1,42 @@
 @blaze(fold: true)
 
-@use(AiluraCode\Bladcn\Enums\Basic\AsChild)
-@use(AiluraCode\Bladcn\Enums\Button\Size)
-@use(AiluraCode\Bladcn\Enums\Button\Variant)
-
 @props([
     'id' => null,
     'class' => null,
     'style' => null,
-    'size' => Size::Default,
-    'variant' => Variant::Default,
-    'asChild' => AsChild::False,
+    'size' => 'default',
+    'variant' => 'default',
+    'asChild' => false,
 ])
 
 @php
-    $size = Size::coerceFrom($size);
-    $variant = Variant::coerceFrom($variant);
-    $isAsChild = AsChild::coerceFrom($asChild);
+    bladcnOptionsValidator('alert-dialog.action', [
+        'size' => [
+            'value' => $size,
+            'options' => ['sm', 'default', 'lg', 'icon'],
+        ],
+        'variant' => [
+            'value' => $variant,
+            'options' => [
+                'default',
+                'destructive',
+                'outline',
+                'secondary',
+                'ghost',
+                'link',
+            ],
+        ],
+        'asChild' => ['value' => $asChild, 'options' => [true, false]],
+    ]);
+
+    $classes = [$class];
 @endphp
 
-<x-bladcn::button :$class
-    :$id
-    :$style
-    :asChild="$isAsChild"
+<x-bladcn::button
+    :class="$class"
+    :id="$id"
+    :style="$style"
+    :asChild="$asChild"
     :size="$size"
     :variant="$variant"
     {{ $attributes }}

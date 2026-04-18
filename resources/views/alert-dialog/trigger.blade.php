@@ -1,15 +1,17 @@
 @blaze(fold: true)
 
-@use(AiluraCode\Bladcn\Enums\Basic\AsChild)
-
 @props([
     'id' => null,
     'class' => null,
     'style' => null,
-    'asChild' => AsChild::False,
+    'asChild' => false,
 ])
 
 @php
+    bladcnOptionsValidator('alert-dialog.trigger', [
+        'asChild' => ['value' => $asChild, 'options' => [true, false]],
+    ]);
+
     $classes = ['cursor-pointer', $class];
     $triggerAttrs = [
         'id' => $id,
@@ -19,7 +21,7 @@
     ];
 @endphp
 
-<x-bladcn::as-child :asChild="AsChild::coerceFrom($asChild)"
+<x-bladcn::as-child :asChild="$asChild"
     :attrs="$triggerAttrs"
     :class="$classes"
     tag="div"

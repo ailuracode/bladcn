@@ -30,3 +30,12 @@ function bladcnHasEvent(ComponentAttributeBag $attributes, string $event): bool
 {
     return $attributes->has("x-on:$event") || $attributes->has("@$event") || $attributes->has("wire:$event");
 }
+
+function bladcnHasEvents(ComponentAttributeBag $attributes, array $events): array
+{
+    $results = [];
+    foreach ($events as $event) {
+        $results[$event] = bladcnHasEvent($attributes, $event);
+    }
+    return $results;
+}
