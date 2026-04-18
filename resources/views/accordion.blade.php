@@ -66,7 +66,7 @@
                 init() {
                     if (this.events.change) {
                         this.$watch('expandedItems', (
-                        value) => {
+                            value) => {
                             this.$dispatch('change', {
                                 expandedItems: value,
                                 mode: this

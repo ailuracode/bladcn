@@ -32,12 +32,11 @@
     $classes = [$class];
 @endphp
 
-<x-bladcn::button
+<x-bladcn::button :asChild="$asChild"
     :class="$class"
     :id="$id"
-    :style="$style"
-    :asChild="$asChild"
     :size="$size"
+    :style="$style"
     :variant="$variant"
     {{ $attributes }}
     data-slot="alert-dialog-cancel"

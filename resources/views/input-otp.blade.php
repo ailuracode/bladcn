@@ -86,7 +86,7 @@
                 isValidChar(char) {
                     if (!char) return false;
                     if (this.pattern === 'DIGITS_ONLY')
-                    return /^\d$/.test(char);
+                        return /^\d$/.test(char);
                     if (this.pattern === 'DIGITS_AND_CHARS')
                         return /^[a-zA-Z0-9]$/.test(char);
                     return true;
@@ -106,7 +106,8 @@
                             const nextInput = this.$el
                                 .querySelector(
                                     'input[data-otp-index="' +
-                                    (index + 1) + '"]');
+                                    (index + 1) +
+                                    '"]');
                             if (nextInput) nextInput
                                 .focus();
                         }, 0);

@@ -65,10 +65,10 @@
                             console.warn('Default value "' +
                                 this.text +
                                 '" not found in combobox items.'
-                                );
+                            );
                             this.text = '';
                             this.selected = multiple ? [] :
-                            null;
+                                null;
                         }
                     }
                 },
@@ -82,7 +82,7 @@
                             .toLowerCase();
                         let visible = 0;
                         for (const item of this
-                            .$items) {
+                                .$items) {
                             const match = item.text
                                 .includes(query);
                             if (item.el.classList

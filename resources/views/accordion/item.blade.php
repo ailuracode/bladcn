@@ -12,6 +12,7 @@
         'id' => $id,
         'style' => $style,
         'data-slot' => 'accordion-item',
+        'data-accordion-value' => $value,
     ]) }}>
     {{ $slot }}
 </div>

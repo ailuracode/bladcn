@@ -39,7 +39,7 @@
                     this.$control = this.$refs.inputGroup
                         .querySelector(
                             '[data-slot="input-group-control"]'
-                            );
+                        );
                 },
                 focusInput(event) {
                     if (event.target === this.$control) return;

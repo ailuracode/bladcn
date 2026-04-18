@@ -1,25 +1,15 @@
 @blaze(fold: true)
 
-@use(AiluraCode\Bladcn\Enums\Basic\Transition)
-@use(AiluraCode\Bladcn\Enums\Basic\Booleanish)
-
-@aware([
-    'value' => null,
-    'defaultValue' => null,
-    'transition' => Transition::False,
-])
-
 @props([
     'id' => null,
     'class' => null,
     'style' => null,
 ])
 
+@aware(['value', 'defaultValue', 'transition' => true])
+
 @php
-    $isDefault = Booleanish::coerceFrom(
-        !in_array($value, (array) $defaultValue),
-    );
-    $transitionAttr = Transition::coerceFrom($transition)->toAlpineAttribute();
+    $isDefault = !in_array($value, (array) $defaultValue, true);
 
     $base = 'overflow-hidden text-sm';
     $classes = [$base, $class];
@@ -28,16 +18,10 @@
         'id' => $id,
         'style' => $style,
         'data-slot' => 'accordion-content',
-        'x-cloak' => $isDefault->toHtml(),
+        'x-cloak' => $isDefault ?: null,
+        'x-collapse' => $transition,
+        'x-show' => 'isSelected("' . $value . '")',
     ];
-
-    if (is_array($transitionAttr)) {
-        $attrs = array_merge($attrs, $transitionAttr);
-    } else {
-        $attrs[$transitionAttr] = '';
-    }
-
-    $attrs['x-show'] = '$data.isSelected("' . $value . '")';
 @endphp
 
 <div {{ $attributes->class($classes)->merge($attrs) }}>
