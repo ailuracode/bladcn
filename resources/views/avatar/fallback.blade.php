@@ -8,7 +8,7 @@
 
 @php
     $base =
-        'bg-muted text-muted-foreground flex size-full items-center justify-center rounded-full text-sm group-data-[size=sm]/avatar:text-xs';
+        'bg-muted absolute text-muted-foreground flex size-full items-center justify-center rounded-full text-sm group-data-[size=sm]/avatar:text-xs';
     $attrs = [
         'id' => $id,
         'style' => $style,

@@ -20,4 +20,7 @@
     ];
 @endphp
 
-<img {{ $attributes->class($classes)->merge($attrs) }} />
+<img {{ $attributes->class($classes)->merge($attrs) }}
+    onerror="this.style.display = 'none';"
+    onload=" const fb = this.parentNode.querySelector('[data-slot=avatar-fallback]');
+       if (fb) fb.style.display = 'none'" />
