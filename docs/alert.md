@@ -8,19 +8,19 @@ for title, description, and actions.
 ```bladehtml
 
 <x-bladcn::alert>
-    <x-bladcn::alert.title>
-        Payment Successful
-    </x-bladcn::alert.title>
-    <x-bladcn::alert.description>
-        Your order has been processed and will ship soon.
-    </x-bladcn::alert.description>
+  <x-bladcn::alert.title>
+    Payment Successful
+  </x-bladcn::alert.title>
+  <x-bladcn::alert.description>
+    Your order has been processed and will ship soon.
+  </x-bladcn::alert.description>
 </x-bladcn::alert>
 ```
 
 ## Components
 
 | Component     | Description                    |
-|---------------|--------------------------------|
+| ------------- | ------------------------------ |
 | `alert`       | Main alert container           |
 | `title`       | Alert title/heading            |
 | `description` | Alert descriptive text         |
@@ -30,17 +30,17 @@ for title, description, and actions.
 
 ### Alert Props
 
-| Prop      | Type              | Default            | Description            |
-|-----------|-------------------|--------------------|------------------------|
-| `id`      | `string\|null`    | `null`             | The element ID         |
-| `class`   | `string\|null`    | `null`             | Additional CSS classes |
-| `style`   | `string\|null`    | `null`             | Inline styles          |
-| `variant` | `Variant\|string` | `Variant::Default` | Visual style variant   |
+| Prop      | Type           | Default     | Description            |
+| --------- | -------------- | ----------- | ---------------------- |
+| `id`      | `string\|null` | `null`      | The element ID         |
+| `class`   | `string\|null` | `null`      | Additional CSS classes |
+| `style`   | `string\|null` | `null`      | Inline styles          |
+| `variant` | `string`       | `'default'` | Visual style variant   |
 
 ### Title Props
 
 | Prop    | Type           | Default | Description            |
-|---------|----------------|---------|------------------------|
+| ------- | -------------- | ------- | ---------------------- |
 | `id`    | `string\|null` | `null`  | The element ID         |
 | `class` | `string\|null` | `null`  | Additional CSS classes |
 | `style` | `string\|null` | `null`  | Inline styles          |
@@ -48,23 +48,24 @@ for title, description, and actions.
 ### Description Props
 
 | Prop    | Type           | Default | Description            |
-|---------|----------------|---------|------------------------|
+| ------- | -------------- | ------- | ---------------------- |
 | `id`    | `string\|null` | `null`  | The element ID         |
 | `class` | `string\|null` | `null`  | Additional CSS classes |
 | `style` | `string\|null` | `null`  | Inline styles          |
 
 ### Action Props
 
-| Prop    | Type           | Default | Description            |
-|---------|----------------|---------|------------------------|
-| `id`    | `string\|null` | `null`  | The element ID         |
-| `class` | `string\|null` | `null`  | Additional CSS classes |
-| `style` | `string\|null` | `null`  | Inline styles          |
+| Prop      | Type   | Default | Description                     |
+| --------- | ------ |---------| ------------------------------- |
+| `id`      | `string\|null` | `null`  | The element ID                  |
+| `class`   | `string\|null` | `null`  | Additional CSS classes          |
+| `style`   | `string\|null` | `null`  | Inline styles                   |
+| `asChild` | `bool` | `false` | Render props onto child element |
 
 ## Variants
 
 | Variant       | Description                                 |
-|---------------|---------------------------------------------|
+| ------------- | ------------------------------------------- |
 | `default`     | Default card style                          |
 | `destructive` | Error/warning style with destructive colors |
 
@@ -111,7 +112,7 @@ for title, description, and actions.
     <x-bladcn::alert.description>
         A new version is available for download.
     </x-bladcn::alert.description>
-    <x-bladcn::alert.action>
+    <x-bladcn::alert.action as-child>
         <x-bladcn::button size="sm">Update Now</x-bladcn::button>
     </x-bladcn::alert.action>
 </x-bladcn::alert>

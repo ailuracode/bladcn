@@ -21,7 +21,7 @@
         ],
     ]);
 
-$defaults = bladcnSplit($defaultValue);
+    $defaults = bladcnSplit($defaultValue);
     $hasChangeEvent = bladcnHasEvent($attributes, 'change');
     $hasToggleEvent = bladcnHasEvent($attributes, 'toggle');
 
@@ -63,12 +63,16 @@ $defaults = bladcnSplit($defaultValue);
                     defaults.slice(0, 1) : [...defaults],
                 events,
 
-init() {
+                init() {
                     if (this.events.change) {
-                        this.$watch('expandedItems', (value) => {
+                        this.$watch('expandedItems', (
+                        value) => {
                             this.$dispatch('change', {
                                 expandedItems: value,
-                                mode: this.isSingleMode ? 'single' : 'multiple',
+                                mode: this
+                                    .isSingleMode ?
+                                    'single' :
+                                    'multiple',
                             });
                         });
                     }
