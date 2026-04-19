@@ -14,52 +14,57 @@ For more themes, languages, and configuration options, visit the [Shiki document
 
 ## Usage
 
+The component is composable using sub-components:
+
 ```bladehtml
-<x-bladcn::highlighted-code language="html">
-    <div class="example">
-        <p>Hello World</p>
-    </div>
+<x-bladcn::highlighted-code>
+    <x-bladcn::highlighted-code.collapse>
+        <x-bladcn::highlighted-code.toolbar show-copy show-collapse>
+            language-name
+        </x-bladcn::highlighted-code.toolbar>
+
+        <x-bladcn::highlighted-code.code-block language="php" copyable>
+            $code = 'Hello World';
+        </x-bladcn::highlighted-code.code-block>
+    </x-bladcn::highlighted-code.collapse>
 </x-bladcn::highlighted-code>
 ```
 
-## Showing Blade Code
+## Components
 
-If you want to display Blade component syntax (like `<x-bladcn::button>`), use the `@` symbol escape syntax:
+### highlighted-code
 
-```bladehtml
-<x-bladcn::highlighted-code language="blade">
-    @verbatim
-    <x-bladcn::button>Click me</x-bladcn::button>
-    @endverbatim
-</x-bladcn::highlighted-code>
-```
+Wrapper component. Receives no specific props but provides context to child components via `@aware`.
 
-## Props
+### highlighted-code.toolbar
 
-| Prop          | Type           | Default      | Description                      |
-| ------------- | -------------- | ------------ | -------------------------------- |
-| `id`          | `string\|null` | `null`       | The element ID                   |
-| `class`       | `string\|null` | `null`       | Additional CSS classes           |
-| `style`       | `string\|null` | `null`       | Inline styles                    |
-| `language`    | `string`       | `'html'`     | Programming language             |
-| `theme`       | `string`       | `'min-dark'` | Syntax highlighting theme        |
-| `collapsible` | `bool`         | `true`       | Enable collapsible functionality |
-| `copyable`    | `bool`         | `true`       | Show copy button                 |
+Toolbar with optional collapse toggle and copy button.
 
-### Subcomponents
+| Prop            | Type    | Default | Description                 |
+| --------------- | ------- | ------- | --------------------------- |
+| `show-copy`     | boolean | false   | Show copy button            |
+| `show-collapse` | boolean | false   | Show collapse/expand toggle |
 
-#### Collapse
+The slot content is displayed as the language/title in the toolbar.
 
-| Prop        | Type  | Default | Description                    |
-| ----------- | ----- | ------- | ------------------------------ |
-| `minHeight` | `int` | `200`   | Minimum height before collapse |
+### highlighted-code.collapse
 
-#### Code Block
+Collapsible wrapper with show/hide functionality.
 
-| Prop          | Type   | Default | Description                          |
-| ------------- | ------ | ------- | ------------------------------------ |
-| `showNumbers` | `bool` | `true`  | Show line numbers                    |
-| `copyable`    | `bool` | `false` | Enable copy (propagates from parent) |
+| Prop        | Type | Default | Description                    |
+| ----------- | ---- | ------- | ------------------------------ |
+| `minHeight` | int  | `200`   | Minimum height before collapse |
+
+### highlighted-code.code-block
+
+Code block with Shiki syntax highlighting.
+
+| Prop          | Type    | Default      | Description                  |
+| ------------- | ------- | ------------ | ---------------------------- |
+| `language`    | string  | `'html'`     | Programming language         |
+| `theme`       | string  | `'min-dark'` | Syntax highlighting theme    |
+| `showNumbers` | boolean | `true`       | Show line numbers            |
+| `copyable`    | boolean | `false`      | Enable copy (adds data-code) |
 
 ## Supported Languages
 
@@ -91,14 +96,22 @@ Available syntax highlighting themes:
 | `tokyo-night`       | Tokyo Night        |
 | And 50+ more...     |                    |
 
-### Dark Theme Example
+### Theme Example
 
 ```bladehtml
-<x-bladcn::highlighted-code language="javascript" theme="dracula">
-    const fetchData = async () => {
-        const response = await fetch('/api/data');
-        return response.json();
-    };
+<x-bladcn::highlighted-code>
+    <x-bladcn::highlighted-code.collapse>
+        <x-bladcn::highlighted-code.toolbar show-copy>
+            JavaScript
+        </x-bladcn::highlighted-code.toolbar>
+
+        <x-bladcn::highlighted-code.code-block language="javascript" theme="dracula" copyable>
+            const fetchData = async () => {
+                const response = await fetch('/api/data');
+                return response.json();
+            };
+        </x-bladcn::highlighted-code.code-block>
+    </x-bladcn::highlighted-code.collapse>
 </x-bladcn::highlighted-code>
 ```
 
@@ -134,7 +147,7 @@ pre.line-numbers code .line::before {
 - `data-slot="highlighted-code-block"` - Code block container identifier
 - `data-language` - Current language
 - `data-theme` - Current theme
-- `data-show-numbers` - Whether line numbers are shown ('true' or 'false')
+- `data-show-numbers` - Whether line numbers are shown
 - `data-code` - The raw code content (only present when copyable is true)
 
 ### Collapse
@@ -144,47 +157,81 @@ pre.line-numbers code .line::before {
 ### Toolbar
 
 - `data-slot="highlighted-code-toolbar"` - Toolbar identifier
-- `data-copyable` - Whether copy button is enabled
-- `data-collapsible` - Whether collapse is enabled
 
 ## Examples
 
-### PHP Code with Copy Button
+### Basic Usage
 
 ```bladehtml
-<x-bladcn::highlighted-code language="php">
-    $greeting = 'Hello, World!';
-    echo $greeting;
+<x-bladcn::highlighted-code>
+    <x-bladcn::highlighted-code.collapse>
+        <x-bladcn::highlighted-code.toolbar show-copy show-collapse>
+            PHP
+        </x-bladcn::highlighted-code.toolbar>
+
+        <x-bladcn::highlighted-code.code-block language="php" copyable>
+            $greeting = 'Hello, World!';
+            echo $greeting;
+        </x-bladcn::highlighted-code.code-block>
+    </x-bladcn::highlighted-code.collapse>
 </x-bladcn::highlighted-code>
 ```
 
-### JavaScript Code (Non-Collapsible)
+### Non-Collapsible with Copy
 
 ```bladehtml
-<x-bladcn::highlighted-code language="javascript" :collapsible="false">
-    const fetchData = async () => {
-        const response = await fetch('/api/data');
-        return response.json();
-    };
-</x-bladcn::highlighted-code>
-```
+<x-bladcn::highlighted-code>
+    <x-bladcn::highlighted-code.collapse>
+        <x-bladcn::highlighted-code.toolbar show-copy>
+            JavaScript
+        </x-bladcn::highlighted-code.toolbar>
 
-### Without Copy Button
-
-```bladehtml
-<x-bladcn::highlighted-code language="javascript" :copyable="false">
-    console.log('No copy button');
+        <x-bladcn::highlighted-code.code-block language="javascript" copyable>
+            const fetchData = async () => {
+                const response = await fetch('/api/data');
+                return response.json();
+            };
+        </x-bladcn::highlighted-code.code-block>
+    </x-bladcn::highlighted-code.collapse>
 </x-bladcn::highlighted-code>
 ```
 
 ### With Additional Classes
 
 ```bladehtml
-<x-bladcn::highlighted-code language="css" class="max-w-2xl">
-    .container {
-        display: flex;
-        gap: 1rem;
-    }
+<x-bladcn::highlighted-code>
+    <x-bladcn::highlighted-code.collapse>
+        <x-bladcn::highlighted-code.toolbar show-copy show-collapse>
+            CSS
+        </x-bladcn::highlighted-code.toolbar>
+
+        <x-bladcn::highlighted-code.code-block language="css" class="max-w-2xl" copyable>
+            .container {
+                display: flex;
+                gap: 1rem;
+            }
+        </x-bladcn::highlighted-code.code-block>
+    </x-bladcn::highlighted-code.collapse>
+</x-bladcn::highlighted-code>
+```
+
+### Showing Blade Code
+
+Use `@verbatim` to display Blade component syntax:
+
+```bladehtml
+<x-bladcn::highlighted-code>
+    <x-bladcn::highlighted-code.collapse>
+        <x-bladcn::highlighted-code.toolbar show-copy show-collapse>
+            Blade
+        </x-bladcn::highlighted-code.toolbar>
+
+        <x-bladcn::highlighted-code.code-block language="blade" copyable>
+            @verbatim
+            <x-bladcn::button>Click me</x-bladcn::button>
+            @endverbatim
+        </x-bladcn::highlighted-code.code-block>
+    </x-bladcn::highlighted-code.collapse>
 </x-bladcn::highlighted-code>
 ```
 
@@ -193,9 +240,17 @@ pre.line-numbers code .line::before {
 The component safely handles code containing quotes, double quotes, and special characters:
 
 ```bladehtml
-<x-bladcn::highlighted-code language="javascript">
-    alert("Hello 'world'");
-    const template = `Hello "universe"`;
+<x-bladcn::highlighted-code>
+    <x-bladcn::highlighted-code.collapse>
+        <x-bladcn::highlighted-code.toolbar show-copy show-collapse>
+            JavaScript
+        </x-bladcn::highlighted-code.toolbar>
+
+        <x-bladcn::highlighted-code.code-block language="javascript" copyable>
+            alert("Hello 'world'");
+            const template = `Hello "universe"`;
+        </x-bladcn::highlighted-code.code-block>
+    </x-bladcn::highlighted-code.collapse>
 </x-bladcn::highlighted-code>
 ```
 

@@ -21,7 +21,7 @@
         @if ($showCollapse || $showCopy)
             <span class='ml-auto flex items-center gap-2'
                 data-slot="code-actions">
-                @if ($showCopy)
+                @if ($showCollapse)
                     <x-bladcn::button size="sm"
                         variant="ghost"
                         x-on:click="expanded = !expanded"
