@@ -1,20 +1,14 @@
 @blaze(fold: true)
 
-@use(AiluraCode\Bladcn\Enums\Basic\Disabled)
-@use(AiluraCode\Bladcn\Enums\NativeSelect\Size)
-
 @props([
     'id' => null,
     'class' => null,
     'style' => null,
-    'size' => Size::Default,
-    'disabled' => Disabled::False,
+    'size' => 'default',
+    'disabled' => false,
 ])
 
 @php
-    $disabled = Disabled::coerceFrom($disabled);
-    $size = Size::coerceFrom($size);
-    $isDisabled = $disabled->isTrue();
     $wrapperBase =
         'group/native-select relative w-fit has-[select:disabled]:opacity-50';
     $selectBase =
@@ -23,11 +17,11 @@
     $wrapperAttrs = [
         'id' => $id,
         'style' => $style,
-        'data-size' => $size->toHtml(),
+        'data-size' => $size,
         'data-slot' => 'native-select-wrapper',
     ];
     $selectAttrs = [
-        'data-size' => $size->toHtml(),
+        'data-size' => $size,
         'data-slot' => 'native-select',
         'aria-invalid' => $attributes->hasAny('data-invalid', 'aria-invalid')
             ? 'true'
@@ -35,8 +29,10 @@
     ];
 @endphp
 
-<div {{ $attributes->class($wrapperClasses)->merge($wrapperAttrs) }}><select
+<div {{ $attributes->class($wrapperClasses)->merge($wrapperAttrs) }}>
+    <select
         {{ $attributes->except('class')->class([$selectBase])->merge($selectAttrs) }}
-        @disabled($isDisabled)>{{ $slot }}</select><x-bladcn::icon
-        class="text-muted-foreground pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 select-none"
-        name="chevron-down" /></div>
+        @disabled($disabled)>{{ $slot }}</select>
+    <x-lucide-chevron-down
+        class="text-muted-foreground pointer-events-none absolute right-2.5 top-1/2 h-4 w-4 -translate-y-1/2 select-none" />
+</div>

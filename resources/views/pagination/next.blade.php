@@ -19,7 +19,6 @@
 
 <x-bladcn::pagination.link {{ $attributes->class($classes)->merge($attrs) }}
     size="default"><span
-        class="hidden sm:block">{{ $text }}</span><x-bladcn::icon
+        class="hidden sm:block">{{ $text }}</span><x-lucide-chevron-right
         class="cn-rtl-flip h-4 w-4"
-        data-icon="inline-start"
-        name="chevron-right" /></x-bladcn::pagination.link>
+        data-icon="inline-start" /></x-bladcn::pagination.link>

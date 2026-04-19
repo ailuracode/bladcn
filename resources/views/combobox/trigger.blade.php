@@ -20,6 +20,8 @@
 @endphp
 
 <div {{ $attributes->class($classes)->merge($triggerAttrs) }}>
-    {{ $slot }}<x-bladcn::icon
+    {{ $slot }}
+    {{-- <x-bladcn::icon
         class="text-muted-foreground pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2"
-        name="chevron-down" /></div>
+        name="chevron-down" /> --}}
+</div>

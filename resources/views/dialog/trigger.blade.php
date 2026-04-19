@@ -4,11 +4,15 @@
     'id' => null,
     'class' => null,
     'style' => null,
+    'asChild' => false,
 ])
 
 @php
+    bladcnOptionsValidator('dialog.trigger', [
+        'as-child' => ['value' => $asChild, 'options' => [true, false]],
+    ]);
     $classes = [$class];
-    $attrs = [
+    $triggerAttrs = [
         'id' => $id,
         'style' => $style,
         'data-slot' => 'dialog-trigger',
@@ -17,4 +21,9 @@
     ];
 @endphp
 
-<div {{ $attributes->class($classes)->merge($attrs) }}>{{ $slot }}</div>
+<x-bladcn::as-child :asChild="$asChild"
+    :attrs="$triggerAttrs"
+    :class="$classes"
+    tag="div">
+    {{ $slot }}
+</x-bladcn::as-child>

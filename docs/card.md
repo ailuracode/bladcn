@@ -24,7 +24,7 @@ descriptions, content areas, footers, and actions.
 ## Components
 
 | Component          | Description                         |
-|--------------------|-------------------------------------|
+| ------------------ | ----------------------------------- |
 | `card`             | Main container wrapper              |
 | `card.header`      | Header section with grid layout     |
 | `card.title`       | Card title text                     |
@@ -37,17 +37,17 @@ descriptions, content areas, footers, and actions.
 
 ### Card Props
 
-| Prop    | Type           | Default         | Description            |
-|---------|----------------|-----------------|------------------------|
-| `id`    | `string\|null` | `null`          | The element ID         |
-| `class` | `string\|null` | `null`          | Additional CSS classes |
-| `style` | `string\|null` | `null`          | Inline styles          |
-| `size`  | `Size\|string` | `Size::Default` | Card size variant      |
+| Prop    | Type           | Default     | Description                           |
+| ------- | -------------- | ----------- | ------------------------------------- |
+| `id`    | `string\|null` | `null`      | The element ID                        |
+| `class` | `string\|null` | `null`      | Additional CSS classes                |
+| `style` | `string\|null` | `null`      | Inline styles                         |
+| `size`  | `string`       | `'default'` | Card size variant (`sm` or `default`) |
 
 ### Header Props
 
 | Prop    | Type           | Default | Description            |
-|---------|----------------|---------|------------------------|
+| ------- | -------------- | ------- | ---------------------- |
 | `id`    | `string\|null` | `null`  | The element ID         |
 | `class` | `string\|null` | `null`  | Additional CSS classes |
 | `style` | `string\|null` | `null`  | Inline styles          |
@@ -55,7 +55,7 @@ descriptions, content areas, footers, and actions.
 ### Title Props
 
 | Prop    | Type           | Default | Description            |
-|---------|----------------|---------|------------------------|
+| ------- | -------------- | ------- | ---------------------- |
 | `id`    | `string\|null` | `null`  | The element ID         |
 | `class` | `string\|null` | `null`  | Additional CSS classes |
 | `style` | `string\|null` | `null`  | Inline styles          |
@@ -63,7 +63,7 @@ descriptions, content areas, footers, and actions.
 ### Description Props
 
 | Prop    | Type           | Default | Description            |
-|---------|----------------|---------|------------------------|
+| ------- | -------------- | ------- | ---------------------- |
 | `id`    | `string\|null` | `null`  | The element ID         |
 | `class` | `string\|null` | `null`  | Additional CSS classes |
 | `style` | `string\|null` | `null`  | Inline styles          |
@@ -71,7 +71,7 @@ descriptions, content areas, footers, and actions.
 ### Content Props
 
 | Prop    | Type           | Default | Description            |
-|---------|----------------|---------|------------------------|
+| ------- | -------------- | ------- | ---------------------- |
 | `id`    | `string\|null` | `null`  | The element ID         |
 | `class` | `string\|null` | `null`  | Additional CSS classes |
 | `style` | `string\|null` | `null`  | Inline styles          |
@@ -79,7 +79,7 @@ descriptions, content areas, footers, and actions.
 ### Footer Props
 
 | Prop    | Type           | Default | Description            |
-|---------|----------------|---------|------------------------|
+| ------- | -------------- | ------- | ---------------------- |
 | `id`    | `string\|null` | `null`  | The element ID         |
 | `class` | `string\|null` | `null`  | Additional CSS classes |
 | `style` | `string\|null` | `null`  | Inline styles          |
@@ -87,19 +87,17 @@ descriptions, content areas, footers, and actions.
 ### Action Props
 
 | Prop    | Type           | Default | Description            |
-|---------|----------------|---------|------------------------|
+| ------- | -------------- | ------- | ---------------------- |
 | `id`    | `string\|null` | `null`  | The element ID         |
 | `class` | `string\|null` | `null`  | Additional CSS classes |
 | `style` | `string\|null` | `null`  | Inline styles          |
 
-## Enums
+## Size Options
 
-### Size Enum (`AiluraCode\Bladcn\Enums\Card\Size`)
-
-| Case      | Value       | Description        |
-|-----------|-------------|--------------------|
-| `Default` | `'default'` | Default size       |
-| `SM`      | `'sm'`      | Small size variant |
+| Value       | Description        |
+| ----------- | ------------------ |
+| `'default'` | Default size       |
+| `'sm'`      | Small size variant |
 
 ## Data Attributes
 

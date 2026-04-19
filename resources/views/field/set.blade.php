@@ -13,5 +13,6 @@
     $attrs = ['id' => $id, 'style' => $style, 'data-slot' => 'fieldset'];
 @endphp
 
-<fieldset {{ $attributes->class($classes)->merge($attrs) }}>{{ $slot }}
+<fieldset {{ $attributes->class($classes)->merge($attrs) }}>
+    {{ $slot }}
 </fieldset>

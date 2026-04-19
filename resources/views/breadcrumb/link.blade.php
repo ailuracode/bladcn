@@ -7,11 +7,16 @@
     'class' => null,
     'style' => null,
     'href' => null,
-    'asChild' => AsChild::False,
+    'asChild' => false,
 ])
 
 @php
-    $isAsChild = AsChild::coerceFrom($asChild);
+    bladcnOptionsValidator('breadcrums.link', [
+        'as-child' => [
+            'value' => $asChild,
+            'options' => [true, false],
+        ],
+    ]);
     $classes = [
         'hover:text-foreground transition-colors hover:cursor-pointer',
         $class,
@@ -25,7 +30,9 @@
     ];
 @endphp
 
-<x-bladcn::as-child :asChild="$isAsChild"
-    :attrs="$linkAttrs"
-    :class="$classes"
-    tag="a">{{ $slot }}</x-bladcn::as-child>
+<x-bladcn::as-child :asChild='$asChild'
+    :attrs='$linkAttrs'
+    :class='$classes'
+    tag='a'>
+    {{ $slot }}
+</x-bladcn::as-child>

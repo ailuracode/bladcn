@@ -18,6 +18,6 @@
     ];
 @endphp
 
-<span {{ $attributes->class($classes)->merge($attrs) }}><x-bladcn::icon
-        class="h-4 w-4"
-        name="more-horizontal" /><span class="sr-only">More pages</span></span>
+<span
+    {{ $attributes->class($classes)->merge($attrs) }}><x-lucide-more-horizontal
+        class="h-4 w-4" /><span class="sr-only">More pages</span></span>

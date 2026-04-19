@@ -18,7 +18,7 @@ The combobox component provides a searchable dropdown select.
 ## Components
 
 | Component            | Description             |
-|----------------------|-------------------------|
+| -------------------- | ----------------------- |
 | `combobox`           | Main combobox container |
 | `combobox.input`     | Search input field      |
 | `combobox.content`   | Dropdown content panel  |
@@ -33,7 +33,7 @@ The combobox component provides a searchable dropdown select.
 ### Combobox Props
 
 | Prop           | Type            | Default | Description               |
-|----------------|-----------------|---------|---------------------------|
+| -------------- | --------------- | ------- | ------------------------- |
 | `id`           | `string\|null`  | `null`  | The element ID            |
 | `class`        | `string\|null`  | `null`  | Additional CSS classes    |
 | `style`        | `string\|null`  | `null`  | Inline styles             |
@@ -44,21 +44,32 @@ The combobox component provides a searchable dropdown select.
 
 ### Input Props
 
-| Prop          | Type             | Default           | Description           |
-|---------------|------------------|-------------------|-----------------------|
-| `disabled`    | `Disabled\|bool` | `Disabled::False` | Disable the input     |
-| `showTrigger` | `bool`           | `true`            | Show dropdown trigger |
-| `showClear`   | `bool`           | `false`           | Show clear button     |
-| `placeholder` | `string\|null`   | `null`            | Input placeholder     |
+| Prop          | Type           | Default | Description           |
+| ------------- | -------------- | ------- | --------------------- |
+| `disabled`    | `bool`         | `false` | Disable the input     |
+| `showTrigger` | `bool`         | `true`  | Show dropdown trigger |
+| `showClear`   | `bool`         | `false` | Show clear button     |
+| `placeholder` | `string\|null` | `null`  | Input placeholder     |
 
 ### Item Props
 
 | Prop    | Type           | Default | Description            |
-|---------|----------------|---------|------------------------|
+| ------- | -------------- | ------- | ---------------------- |
 | `id`    | `string\|null` | `null`  | The element ID         |
 | `class` | `string\|null` | `null`  | Additional CSS classes |
 | `style` | `string\|null` | `null`  | Inline styles          |
 | `value` | `string`       | -       | Item value             |
+
+### Content Props
+
+| Prop         | Type           | Default    | Description                                          |
+| ------------ | -------------- | ---------- | ---------------------------------------------------- |
+| `id`         | `string\|null` | `null`     | The element ID                                       |
+| `class`      | `string\|null` | `null`     | Additional CSS classes                               |
+| `style`      | `string\|null` | `null`     | Inline styles                                        |
+| `side`       | `string`       | `'bottom'` | Popover placement (`top`, `bottom`, `left`, `right`) |
+| `sideOffset` | `int`          | `6`        | Offset from anchor                                   |
+| `align`      | `string`       | `'start'`  | Alignment (`start`, `center`, `end`)                 |
 
 ## Data Attributes
 

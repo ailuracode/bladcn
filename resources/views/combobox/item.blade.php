@@ -20,8 +20,11 @@
 @endphp
 
 <div {{ $attributes->class($classes)->merge($itemAttrs) }}>
-    {{ $slot }}<span
+    {{ $slot }}
+    <span
         class="pointer-events-none absolute right-2 flex size-4 items-center justify-center"
-        x-show="isSelected('{{ $value ?? $slot }}')"><x-bladcn::icon
-            class="pointer-events-none h-4 w-4"
-            name="check" /></span></div>
+        x-show="isSelected('{{ $value ?? $slot }}')">
+        {{-- <x-bladcn::icon class="pointer-events-none h-4 w-4"
+            name="check" /> --}}
+    </span>
+</div>

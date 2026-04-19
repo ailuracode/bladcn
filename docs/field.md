@@ -16,7 +16,7 @@ The field component provides a wrapper for form inputs with label and error hand
 ## Components
 
 | Component           | Description              |
-|---------------------|--------------------------|
+| ------------------- | ------------------------ |
 | `field`             | Main field wrapper       |
 | `field.label`       | Field label              |
 | `field.description` | Help text description    |
@@ -32,39 +32,37 @@ The field component provides a wrapper for form inputs with label and error hand
 
 ### Field Props
 
-| Prop          | Type             | Default           | Description            |
-|---------------|------------------|-------------------|------------------------|
-| `id`          | `string\|null`   | `null`            | The element ID         |
-| `class`       | `string\|null`   | `null`            | Additional CSS classes |
-| `style`       | `string\|null`   | `null`            | Inline styles          |
-| `orientation` | `string`         | `'vertical'`      | Layout orientation     |
-| `disabled`    | `Disabled\|bool` | `Disabled::False` | Disable the field      |
+| Prop          | Type           | Default      | Description            |
+| ------------- | -------------- | ------------ | ---------------------- |
+| `id`          | `string\|null` | `null`       | The element ID         |
+| `class`       | `string\|null` | `null`       | Additional CSS classes |
+| `style`       | `string\|null` | `null`       | Inline styles          |
+| `orientation` | `string`       | `'vertical'` | Layout orientation     |
+| `disabled`    | `bool`         | `false`      | Disable the field      |
 
 ### Label Props
 
-| Prop       | Type             | Default           | Description       |
-|------------|------------------|-------------------|-------------------|
-| `disabled` | `Disabled\|bool` | `Disabled::False` | Disable the label |
-| `asChild`  | `AsChild\|bool`  | `AsChild::False`  | Render onto child |
+| Prop       | Type   | Default | Description       |
+| ---------- | ------ | ------- | ----------------- |
+| `disabled` | `bool` | `false` | Disable the label |
+| `asChild`  | `bool` | `false` | Render onto child |
 
 ### Error Props
 
 | Prop     | Type           | Default | Description            |
-|----------|----------------|---------|------------------------|
+| -------- | -------------- | ------- | ---------------------- |
 | `id`     | `string\|null` | `null`  | The element ID         |
 | `class`  | `string\|null` | `null`  | Additional CSS classes |
 | `style`  | `string\|null` | `null`  | Inline styles          |
 | `errors` | `array`        | `[]`    | Validation errors      |
 
-## Enums
+## Orientation Options
 
-### Orientation Enum (`AiluraCode\Bladcn\Enums\Basic\Orientation`)
-
-| Case         | Value          | Description               |
-|--------------|----------------|---------------------------|
-| `Horizontal` | `'horizontal'` | Horizontal layout         |
-| `Vertical`   | `'vertical'`   | Vertical layout (default) |
-| `Responsive` | `'responsive'` | Responsive layout         |
+| Value          | Description               |
+| -------------- | ------------------------- |
+| `'vertical'`   | Vertical layout (default) |
+| `'horizontal'` | Horizontal layout         |
+| `'responsive'` | Responsive layout         |
 
 ## Data Attributes
 

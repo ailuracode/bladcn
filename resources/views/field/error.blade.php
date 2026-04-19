@@ -11,9 +11,16 @@
     $content = trim($slot);
 
     if (!$content) {
+        if (is_object($errors) && method_exists($errors, 'toArray')) {
+            $errors = $errors->toArray();
+        }
         $messages = collect($errors)
             ->filter()
-            ->pluck('message')
+            ->map(function ($error) {
+                return is_object($error)
+                    ? $error->message ?? null
+                    : $error ?? null;
+            })
             ->filter()
             ->unique()
             ->values();

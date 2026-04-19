@@ -25,55 +25,55 @@ The dialog component provides a modal overlay for focused interactions.
 
 ## Components
 
-| Component            | Description            |
-|----------------------|------------------------|
-| `dialog`             | Main dialog container  |
-| `dialog.trigger`     | Dialog trigger button  |
-| `dialog.content`     | Modal content panel    |
-| `dialog.header`      | Modal header section   |
-| `dialog.footer`      | Modal footer section   |
-| `dialog.title`       | Modal title            |
-| `dialog.description` | Modal description      |
-| `dialog.close`       | Close button           |
-| `dialog.overlay`     | Modal overlay backdrop |
+| Component            | Description                      |
+| -------------------- | -------------------------------- |
+| `dialog`             | Main dialog container            |
+| `dialog.trigger`     | Dialog trigger button            |
+| `dialog.content`     | Modal content + overlay (portal) |
+| `dialog.header`      | Modal header section             |
+| `dialog.footer`      | Modal footer section             |
+| `dialog.title`       | Modal title                      |
+| `dialog.description` | Modal description                |
+| `dialog.close`       | Close button                     |
 
 ## Props
 
 ### Dialog Props
 
-| Prop       | Type             | Default           | Description            |
-|------------|------------------|-------------------|------------------------|
-| `id`       | `string\|null`   | `null`            | The element ID         |
-| `class`    | `string\|null`   | `null`            | Additional CSS classes |
-| `style`    | `string\|null`   | `null`            | Inline styles          |
-| `open`     | `bool`           | `false`           | Initial open state     |
-| `disabled` | `Disabled\|bool` | `Disabled::False` | Disable the dialog     |
+| Prop         | Type           | Default | Description                       |
+| ------------ | -------------- | ------- | --------------------------------- |
+| `id`         | `string\|null` | `null`  | The element ID                    |
+| `class`      | `string\|null` | `null`  | Additional CSS classes            |
+| `style`      | `string\|null` | `null`  | Inline styles                     |
+| `open`       | `bool`         | `false` | Initial open state                |
+| `persistent` | `bool`         | `false` | Prevent closing on escape/overlay |
+| `transition` | `bool`         | `true`  | Enable transitions                |
 
 ### Content Props
 
-| Prop              | Type           | Default         | Description            |
-|-------------------|----------------|-----------------|------------------------|
-| `id`              | `string\|null` | `null`          | The element ID         |
-| `class`           | `string\|null` | `null`          | Additional CSS classes |
-| `style`           | `string\|null` | `null`          | Inline styles          |
-| `size`            | `Size\|string` | `Size::Default` | Dialog size            |
-| `showCloseButton` | `bool`         | `true`          | Show close button      |
+| Prop              | Type           | Default     | Description                                       |
+| ----------------- | -------------- | ----------- | ------------------------------------------------- |
+| `id`              | `string\|null` | `null`      | The element ID                                    |
+| `class`           | `string\|null` | `null`      | Additional CSS classes                            |
+| `style`           | `string\|null` | `null`      | Inline styles                                     |
+| `size`            | `string`       | `'default'` | Dialog size (`sm`, `default`, `lg`, `xl`, `full`) |
+| `showCloseButton` | `bool`         | `true`      | Show close button                                 |
 
-## Enums
+## Size Options
 
-### Size Enum (`AiluraCode\Bladcn\Enums\Dialog\Size`)
-
-| Case      | Value       | Description  |
-|-----------|-------------|--------------|
-| `Default` | `'default'` | Default size |
-| `Sm`      | `'sm'`      | Small size   |
-| `Lg`      | `'lg'`      | Large size   |
-| `Xl`      | `'xl'`      | Extra large  |
-| `Full`    | `'full'`    | Full screen  |
+| Value       | Description  |
+| ----------- | ------------ |
+| `'default'` | Default size |
+| `'sm'`      | Small size   |
+| `'lg'`      | Large size   |
+| `'xl'`      | Extra large  |
+| `'full'`    | Full screen  |
 
 ## Data Attributes
 
 - `data-slot="dialog"` - Main dialog container
+- `data-slot="dialog-portal"` - Portal wrapper
+- `data-slot="dialog-overlay"` - Modal overlay (backdrop)
 - `data-slot="dialog-trigger"` - Trigger element
 - `data-slot="dialog-content"` - Modal content
 - `data-slot="dialog-header"` - Header section

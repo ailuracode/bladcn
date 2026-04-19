@@ -1,18 +1,20 @@
 @blaze(fold: true)
 
-@use(AiluraCode\Bladcn\Enums\Basic\Disabled)
-
 @props([
     'id' => null,
     'class' => null,
     'style' => null,
     'orientation' => 'vertical',
-    'disabled' => Disabled::False,
+    'disabled' => false,
 ])
 
 @php
-    $disabled = Disabled::coerceFrom($disabled);
-    $isDisabled = $disabled->isTrue();
+    bladcnOptionsValidator('field', [
+        'orientation' => [
+            'value' => $orientation,
+            'options' => ['vertical', 'horizontal', 'responsive'],
+        ],
+    ]);
     $variants = [
         'vertical' => 'flex-col *:w-full [&>.sr-only]:w-auto',
         'horizontal' =>
@@ -22,7 +24,7 @@
     ];
     $base =
         'data-[invalid=true]:text-destructive gap-2 group/field flex w-full' .
-        ($isDisabled ? ' data-disabled:opacity-50' : '');
+        ($disabled ? ' data-disabled:opacity-50' : '');
     $classes = [
         $base,
         $variants[$orientation] ?? $variants['vertical'],
