@@ -6,6 +6,7 @@
     'style' => null,
     'orientation' => 'vertical',
     'disabled' => false,
+    'invalid' => false,
 ])
 
 @php
@@ -35,6 +36,7 @@
         'style' => $style,
         'data-orientation' => $orientation,
         'data-slot' => 'field',
+        'data-invalid' => $invalid,
         'role' => 'group',
     ];
 @endphp

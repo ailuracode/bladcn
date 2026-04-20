@@ -5,25 +5,31 @@
     'class' => null,
     'style' => null,
     'errors' => [],
+    'issues' => [],
 ])
 
 @php
     $content = trim($slot);
 
     if (!$content) {
-        if (is_object($errors) && method_exists($errors, 'toArray')) {
-            $errors = $errors->toArray();
+        $allErrors = collect($errors)->merge(collect($issues));
+
+        if (is_object($allErrors) && method_exists($allErrors, 'toArray')) {
+            $allErrors = $allErrors->toArray();
         }
-        $messages = collect($errors)
+
+        $messages = collect($allErrors)
             ->filter()
             ->map(function ($error) {
-                return is_object($error)
-                    ? $error->message ?? null
-                    : $error ?? null;
+                if (is_object($error)) {
+                    return $error->message ?? ($error->issueMessage ?? null);
+                }
+                return $error ?? null;
             })
             ->filter()
             ->unique()
             ->values();
+
         if ($messages->isEmpty()) {
             $content = null;
         } elseif ($messages->count() === 1) {
