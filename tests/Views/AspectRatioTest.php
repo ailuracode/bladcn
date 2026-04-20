@@ -1,19 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AiluraCode\Bladcn\Tests\Views;
 
 use AiluraCode\Bladcn\BladcnServiceProvider;
 use Orchestra\Testbench\TestCase;
 
-class AspectRatioTest extends TestCase
+final class AspectRatioTest extends TestCase
 {
-    protected function getPackageProviders($app): array
-    {
-        return [
-            BladcnServiceProvider::class,
-        ];
-    }
-
     public function test_renders_default_aspect_ratio(): void
     {
         $this->blade('<x-bladcn::aspect-ratio>content</x-bladcn::aspect-ratio>')
@@ -55,5 +50,12 @@ class AspectRatioTest extends TestCase
     {
         $this->blade('<x-bladcn::aspect-ratio data-testid="ratio">content</x-bladcn::aspect-ratio>')
             ->assertSee('data-testid="ratio"', false);
+    }
+
+    protected function getPackageProviders($app): array
+    {
+        return [
+            BladcnServiceProvider::class,
+        ];
     }
 }

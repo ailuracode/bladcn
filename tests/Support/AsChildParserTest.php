@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 use AiluraCode\Bladcn\Support\AsChildParser;
 
-test('parse self-closing tag without attributes', function () {
+test('parse self-closing tag without attributes', function (): void {
     $result = AsChildParser::parse('<br />', []);
 
     expect($result)->not->toBeNull()
@@ -11,7 +13,7 @@ test('parse self-closing tag without attributes', function () {
         ->and($result['innerHtml'])->toBe('');
 });
 
-test('parse self-closing tag with attributes', function () {
+test('parse self-closing tag with attributes', function (): void {
     $result = AsChildParser::parse('<x-icon class="foo" data-slot="icon" />', ['class' => 'parent']);
 
     expect($result)->not->toBeNull()
@@ -21,7 +23,7 @@ test('parse self-closing tag with attributes', function () {
         ->and($result['innerHtml'])->toBe('');
 });
 
-test('parse self-closing tag with single quoted attributes', function () {
+test('parse self-closing tag with single quoted attributes', function (): void {
     $result = AsChildParser::parse("<x-icon class='bar' />", []);
 
     expect($result)->not->toBeNull()
@@ -29,7 +31,7 @@ test('parse self-closing tag with single quoted attributes', function () {
         ->and($result['attrs']['class'])->toBe('bar');
 });
 
-test('parse self-closing tag with boolean attribute', function () {
+test('parse self-closing tag with boolean attribute', function (): void {
     $result = AsChildParser::parse('<x-icon disabled />', []);
 
     expect($result)->not->toBeNull()
@@ -37,7 +39,7 @@ test('parse self-closing tag with boolean attribute', function () {
         ->and($result['attrs']['disabled'])->toBeNull();
 });
 
-test('parse normal tag regression', function () {
+test('parse normal tag regression', function (): void {
     $result = AsChildParser::parse('<div class="x">hello</div>', []);
 
     expect($result)->not->toBeNull()
@@ -46,7 +48,7 @@ test('parse normal tag regression', function () {
         ->and($result['innerHtml'])->toBe('hello');
 });
 
-test('parse preserves mid-content html comment', function () {
+test('parse preserves mid-content html comment', function (): void {
     $result = AsChildParser::parse('<div><!-- legit comment --></div>', []);
 
     expect($result)->not->toBeNull()
@@ -54,31 +56,31 @@ test('parse preserves mid-content html comment', function () {
         ->and($result['innerHtml'])->toContain('<!-- legit comment -->');
 });
 
-test('clean strips leading and trailing comments', function () {
+test('clean strips leading and trailing comments', function (): void {
     $result = AsChildParser::cleanBladeComments('<!-- c --><span>hi</span><!-- c -->');
 
     expect($result)->toBe('<span>hi</span>');
 });
 
-test('clean strips multiple leading trailing comments', function () {
+test('clean strips multiple leading trailing comments', function (): void {
     $result = AsChildParser::cleanBladeComments('<!-- c1 --><!-- c2 --><span>hi</span><!-- c3 -->');
 
     expect($result)->toBe('<span>hi</span>');
 });
 
-test('clean preserves comment inside tag', function () {
+test('clean preserves comment inside tag', function (): void {
     $result = AsChildParser::cleanBladeComments('<div><!-- inside --></div>');
 
     expect($result)->toBe('<div><!-- inside --></div>');
 });
 
-test('clean only comments returns null after parse', function () {
+test('clean only comments returns null after parse', function (): void {
     $result = AsChildParser::parse('<!-- c --><!-- c2 -->', []);
 
     expect($result)->toBeNull();
 });
 
-test('clean strips blade conditional comment markers', function () {
+test('clean strips blade conditional comment markers', function (): void {
     $html = '<!--[if BLOCK]><![endif]--><div><!--[if BLOCK]><![endif]-->Text<!--[if BLOCK]><![endif]--></div><!--[if ENDBLOCK]><![endif]-->';
     $result = AsChildParser::parse($html, []);
 
@@ -86,43 +88,43 @@ test('clean strips blade conditional comment markers', function () {
         ->and($result['tag'])->toBe('div');
 });
 
-test('parse merges class from parent', function () {
+test('parse merges class from parent', function (): void {
     $result = AsChildParser::parse('<span class="child-class">text</span>', ['class' => 'parent-class']);
 
     expect($result['attrs']['class'])->toBe('parent-class child-class');
 });
 
-test('parse merges style from parent', function () {
+test('parse merges style from parent', function (): void {
     $result = AsChildParser::parse('<span style="color: red">text</span>', ['style' => 'font-size: 14px']);
 
     expect($result['attrs']['style'])->toBe('font-size: 14px; color: red');
 });
 
-test('parse parent attrs override child on conflict', function () {
+test('parse parent attrs override child on conflict', function (): void {
     $result = AsChildParser::parse('<span id="child-id">text</span>', ['id' => 'parent-id']);
 
     expect($result['attrs']['id'])->toBe('parent-id');
 });
 
-test('parse adds parent only attrs', function () {
+test('parse adds parent only attrs', function (): void {
     $result = AsChildParser::parse('<span>text</span>', ['data-slot' => 'test']);
 
     expect($result['attrs']['data-slot'])->toBe('test');
 });
 
-test('parse returns null for plain text', function () {
+test('parse returns null for plain text', function (): void {
     $result = AsChildParser::parse('just plain text', []);
 
     expect($result)->toBeNull();
 });
 
-test('parse returns null for empty string', function () {
+test('parse returns null for empty string', function (): void {
     $result = AsChildParser::parse('', []);
 
     expect($result)->toBeNull();
 });
 
-test('parse caches results', function () {
+test('parse caches results', function (): void {
     $result1 = AsChildParser::parse('<div>cached</div>', []);
     $result2 = AsChildParser::parse('<div>cached</div>', []);
 

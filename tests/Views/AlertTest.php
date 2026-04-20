@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AiluraCode\Bladcn\Tests\Views;
 
 use AiluraCode\Bladcn\BladcnServiceProvider;
@@ -7,16 +9,8 @@ use Illuminate\View\ViewException;
 use MallardDuck\LucideIcons\BladeLucideIconsServiceProvider;
 use Orchestra\Testbench\TestCase;
 
-class AlertTest extends TestCase
+final class AlertTest extends TestCase
 {
-    protected function getPackageProviders($app): array
-    {
-        return [
-            BladcnServiceProvider::class,
-            BladeLucideIconsServiceProvider::class,
-        ];
-    }
-
     public function test_renders_default_alert(): void
     {
         $this->blade('<x-bladcn::alert></x-bladcn::alert>')
@@ -119,5 +113,13 @@ class AlertTest extends TestCase
     {
         $this->blade('<x-bladcn::alert></x-bladcn::alert>')
             ->assertSee('role="alert"', false);
+    }
+
+    protected function getPackageProviders($app): array
+    {
+        return [
+            BladcnServiceProvider::class,
+            BladeLucideIconsServiceProvider::class,
+        ];
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AiluraCode\Bladcn\Concerns;
 
 use InvalidArgumentException;
@@ -16,17 +18,15 @@ trait HasBooleanCoercion
             return $value;
         }
 
-        if ($value === true || $value === 'true' || $value === '') {
+        if (in_array($value, [true, 'true', ''], true)) {
             return self::True;
         }
 
-        if ($value === false || $value === 'false' || $value === null) {
+        if (in_array($value, [false, 'false', null], true)) {
             return self::False;
         }
 
-        if ($strict) {
-            throw new InvalidArgumentException("Invalid value: {$value}");
-        }
+        throw_if($strict, InvalidArgumentException::class, 'Invalid value: '.$value);
 
         return self::False;
     }

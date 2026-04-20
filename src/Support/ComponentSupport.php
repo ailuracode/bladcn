@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AiluraCode\Bladcn\Support;
 
 use AiluraCode\Bladcn\Enums\Basic\AsChild;
 
-class ComponentSupport
+final class ComponentSupport
 {
     public static function coerceAsChild(mixed $asChild): AsChild
     {

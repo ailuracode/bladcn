@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AiluraCode\Bladcn\Enums\Basic;
 
 use AiluraCode\Bladcn\Concerns\HasBooleanCoercion;

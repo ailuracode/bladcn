@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use AiluraCode\Bladcn\Support\OptionValidator;
 use Illuminate\View\ComponentAttributeBag;
 
@@ -22,13 +24,20 @@ function bladcnSplit(string|array|null $value): array
     return match (true) {
         $value === '' || $value === null => [],
         is_array($value) => $value,
-        default => array_map('trim', explode(',', $value)),
+        default => array_map(trim(...), explode(',', $value)),
     };
 }
 
 function bladcnHasEvent(ComponentAttributeBag $attributes, string $event): bool
 {
-    return $attributes->has("x-on:$event") || $attributes->has("@$event") || $attributes->has("wire:$event");
+    if ($attributes->has('x-on:'.$event)) {
+        return true;
+    }
+    if ($attributes->has('@'.$event)) {
+        return true;
+    }
+
+    return $attributes->has('wire:'.$event);
 }
 
 function bladcnHasEvents(ComponentAttributeBag $attributes, array $events): array
@@ -37,5 +46,6 @@ function bladcnHasEvents(ComponentAttributeBag $attributes, array $events): arra
     foreach ($events as $event) {
         $results[$event] = bladcnHasEvent($attributes, $event);
     }
+
     return $results;
 }

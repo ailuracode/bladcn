@@ -1,19 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AiluraCode\Bladcn\Tests\Views;
 
 use AiluraCode\Bladcn\BladcnServiceProvider;
 use Orchestra\Testbench\TestCase;
 
-class AvatarTest extends TestCase
+final class AvatarTest extends TestCase
 {
-    protected function getPackageProviders($app): array
-    {
-        return [
-            BladcnServiceProvider::class,
-        ];
-    }
-
     public function test_renders_default_avatar(): void
     {
         $this->blade('<x-bladcn::avatar>content</x-bladcn::avatar>')
@@ -114,5 +109,12 @@ class AvatarTest extends TestCase
             ->assertSee('data-slot="avatar-image"', false)
             ->assertSee('data-slot="avatar-fallback"', false)
             ->assertSee("window._bladcnSlots.push('avatar')", false);
+    }
+
+    protected function getPackageProviders($app): array
+    {
+        return [
+            BladcnServiceProvider::class,
+        ];
     }
 }

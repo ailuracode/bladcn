@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AiluraCode\Bladcn\Concerns;
 
 use InvalidArgumentException;
@@ -17,7 +19,7 @@ trait HasStringCoercion
         }
 
         if ($strict) {
-            return self::tryFrom($value) ?? throw new InvalidArgumentException("Invalid value: $value");
+            return self::tryFrom($value) ?? throw new InvalidArgumentException('Invalid value: '.$value);
         }
 
         return self::tryFrom($value) ?? self::cases()[0];

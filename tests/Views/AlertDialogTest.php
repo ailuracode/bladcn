@@ -1,20 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AiluraCode\Bladcn\Tests\Views;
 
 use AiluraCode\Bladcn\BladcnServiceProvider;
 use Illuminate\View\ViewException;
 use Orchestra\Testbench\TestCase;
 
-class AlertDialogTest extends TestCase
+final class AlertDialogTest extends TestCase
 {
-    protected function getPackageProviders($app): array
-    {
-        return [
-            BladcnServiceProvider::class,
-        ];
-    }
-
     public function test_renders_alert_dialog_wrapper(): void
     {
         $this->blade('<x-bladcn::alert-dialog></x-bladcn::alert-dialog>')
@@ -234,5 +229,12 @@ class AlertDialogTest extends TestCase
             ->assertSee('data-slot="alert-dialog-cancel"', false)
             ->assertSee('Confirm')
             ->assertSee('Are you sure?');
+    }
+
+    protected function getPackageProviders($app): array
+    {
+        return [
+            BladcnServiceProvider::class,
+        ];
     }
 }

@@ -10,16 +10,29 @@
     }
   ],
   "require": {
-    "php": "^8.1",
+    "php": "^8.3",
     "laravel/framework": "^13.0",
     "mallardduck/blade-lucide-icons": "^1.26"
   },
   "require-dev": {
-    "phpunit/phpunit": "^11.5",
+    "driftingly/rector-laravel": "^2.3.0",
+    "laravel/pint": "^1.29",
     "pestphp/pest": "^3.8",
     "orchestra/testbench": "^11.0",
-    "mallardduck/blade-lucide-icons": "^1.26",
-    "blade-ui-kit/blade-icons": "^1.0"
+    "rector/rector": "^2.4.2"
+  },
+  "scripts": {
+    "setup": [
+      "composer install",
+      "npm install"
+    ],
+    "lint:check": [
+      "pint --parallel --test"
+    ],
+    "lint": [
+      "rector",
+      "pint --parallel"
+    ]
   },
   "autoload": {
     "files": [

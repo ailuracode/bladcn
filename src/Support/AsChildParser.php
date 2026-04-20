@@ -1,18 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AiluraCode\Bladcn\Support;
 
 use function count;
 
-class AsChildParser
+final class AsChildParser
 {
-    protected static array $cache = [];
+    private static array $cache = [];
 
-    protected static int $cacheLimit = 500;
+    private static int $cacheLimit = 500;
 
     public static function parse(string $slotHtml, array $parentAttrs): ?array
     {
-        $html = self::cleanBladeComments(trim($slotHtml));
+        $html = self::cleanBladeComments(mb_trim($slotHtml));
         if ($html === '') {
             return null;
         }
@@ -23,9 +25,8 @@ class AsChildParser
             return self::mergeResult($cached['tag'], $cached['attrs'], $cached['innerHtml'], $parentAttrs);
         }
 
-        // Self-closing tag: <tag attrs />
         if (preg_match('/^<([\w-]+)((?:\s+[\w\-:@]+(?:="[^"]*"|=\'[^\']*\'|=\S+)?)*)\s*\/>\s*$/s', $html, $m)) {
-            $tag = strtolower($m[1]);
+            $tag = mb_strtolower($m[1]);
             $attrs = self::parseAttrString($m[2] ?? '');
 
             self::cacheResult($html, $tag, $attrs, '');
@@ -33,13 +34,12 @@ class AsChildParser
             return self::mergeResult($tag, $attrs, '', $parentAttrs);
         }
 
-        // Normal tag: <tag attrs>content</tag>
-        if (!preg_match('/^<([\w-]+)((?:\s+[\w\-:@]+(?:="[^"]*"|=\'[^\']*\'|=\S+)?)*)\s*>(.*?)<\/\1>\s*$/s', $html, $m)) {
+        if (! preg_match('/^<([\w-]+)((?:\s+[\w\-:@]+(?:="[^"]*"|=\'[^\']*\'|=\S+)?)*)\s*>(.*?)<\/\1>\s*$/s', $html, $m)) {
             return null;
         }
 
-        $tag = strtolower($m[1]);
-        $inner = trim($m[3]);
+        $tag = mb_strtolower($m[1]);
+        $inner = mb_trim($m[3]);
         $attrs = self::parseAttrString($m[2] ?? '');
 
         self::cacheResult($html, $tag, $attrs, $inner);
@@ -56,19 +56,18 @@ class AsChildParser
         ];
 
         foreach ($patterns as $pattern) {
-            $html = preg_replace($pattern, '', $html);
+            $html = preg_replace($pattern, '', (string) $html);
         }
 
-        // Strip only leading and trailing HTML comments (preserve mid-content comments)
-        $html = preg_replace('/^(\s*<!--[\s\S]*?-->\s*)+/', '', $html);
-        $html = preg_replace('/(\s*<!--[\s\S]*?-->\s*)+$/', '', $html);
+        $html = preg_replace('/^(\s*<!--[\s\S]*?-->\s*)+/', '', (string) $html);
+        $html = preg_replace('/(\s*<!--[\s\S]*?-->\s*)+$/', '', (string) $html);
 
-        $html = preg_replace('/\s+/', ' ', $html);
+        $html = preg_replace('/\s+/', ' ', (string) $html);
 
-        return trim($html);
+        return mb_trim($html);
     }
 
-    protected static function parseAttrString(string $attrString): array
+    private static function parseAttrString(string $attrString): array
     {
         $attrs = [];
         if ($attrString === '') {
@@ -81,43 +80,47 @@ class AsChildParser
             if ($attrName === '') {
                 continue;
             }
+
             $value = $match[2] ?? '';
             if ($value === '') {
                 $value = $match[3] ?? '';
             }
+
             if ($value === '' && isset($match[4])) {
                 $value = $match[4];
             }
+
             $attrs[$attrName] = $value === '' ? null : $value;
         }
 
         return $attrs;
     }
 
-    protected static function cacheResult(string $html, string $tag, array $attrs, string $inner): void
+    private static function cacheResult(string $html, string $tag, array $attrs, string $inner): void
     {
         if (count(self::$cache) >= self::$cacheLimit) {
             unset(self::$cache[array_key_first(self::$cache)]);
         }
+
         self::$cache[$html] = ['tag' => $tag, 'attrs' => $attrs, 'innerHtml' => $inner];
     }
 
-    protected static function mergeResult(string $tag, array $childAttrs, string $innerHtml, array $parentAttrs): array
+    private static function mergeResult(string $tag, array $childAttrs, string $innerHtml, array $parentAttrs): array
     {
         $merged = [];
 
         foreach ($childAttrs as $key => $value) {
             if ($key === 'class') {
-                $merged[$key] = trim(($parentAttrs[$key] ?? '') . ' ' . $value);
+                $merged[$key] = mb_trim(($parentAttrs[$key] ?? '').' '.$value);
             } elseif ($key === 'style') {
-                $merged[$key] = trim(($parentAttrs[$key] ?? '') . '; ' . $value);
-            } elseif (!isset($parentAttrs[$key])) {
+                $merged[$key] = mb_trim(($parentAttrs[$key] ?? '').'; '.$value);
+            } elseif (! isset($parentAttrs[$key])) {
                 $merged[$key] = $value;
             }
         }
 
         foreach ($parentAttrs as $key => $value) {
-            if (!isset($merged[$key])) {
+            if (! isset($merged[$key])) {
                 $merged[$key] = $value;
             }
         }

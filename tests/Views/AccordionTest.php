@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AiluraCode\Bladcn\Tests\Views;
 
 use AiluraCode\Bladcn\BladcnServiceProvider;
@@ -7,16 +9,8 @@ use Illuminate\View\ViewException;
 use MallardDuck\LucideIcons\BladeLucideIconsServiceProvider;
 use Orchestra\Testbench\TestCase;
 
-class AccordionTest extends TestCase
+final class AccordionTest extends TestCase
 {
-    protected function getPackageProviders($app): array
-    {
-        return [
-            BladcnServiceProvider::class,
-            BladeLucideIconsServiceProvider::class,
-        ];
-    }
-
     public function test_renders_accordion_wrapper(): void
     {
         $this->blade('<x-bladcn::accordion></x-bladcn::accordion>')
@@ -169,5 +163,13 @@ class AccordionTest extends TestCase
             </x-bladcn::accordion>
         ')
             ->assertSee('x-collapse', false);
+    }
+
+    protected function getPackageProviders($app): array
+    {
+        return [
+            BladcnServiceProvider::class,
+            BladeLucideIconsServiceProvider::class,
+        ];
     }
 }

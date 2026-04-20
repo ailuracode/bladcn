@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace AiluraCode\Bladcn\Enums\Button;
 
 use AiluraCode\Bladcn\Concerns\HasStringCoercion;
