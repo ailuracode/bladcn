@@ -11,7 +11,7 @@ Bladcn is a **Laravel PHP package** providing styled Blade components. It is **n
 ## Commands
 
 | Command                                      | Purpose                                  |
-|----------------------------------------------|------------------------------------------|
+| -------------------------------------------- | ---------------------------------------- |
 | `vendor/bin/pest`                            | Run full test suite                      |
 | `vendor/bin/pest --filter "test name"`       | Run tests matching a name                |
 | `vendor/bin/pest tests/Path/To/FileTest.php` | Run tests in a specific file             |
@@ -37,7 +37,7 @@ No PHP linter/formatter (Pint, PHPStan, PHPCS) is currently configured.
 
 - PSR-4 autoloading; file names match class names in PascalCase
 - Explicit type declarations on all parameters and return types
-- Use PHP 8+ features: `#[Override]` attribute, `mixed` type, enums, named arguments
+- Use PHP 8+ features: `#[Override]` attribute, `mixed` type, named arguments
 - No try/catch blocks — throw `InvalidArgumentException` explicitly or return `null` for graceful fallbacks
 
 ### Blade Templates
@@ -54,16 +54,14 @@ No PHP linter/formatter (Pint, PHPStan, PHPCS) is currently configured.
 
 ### Naming
 
-| Element     | Convention                | Example                                          |
-|-------------|---------------------------|--------------------------------------------------|
-| Classes     | PascalCase                | `BladcnServiceProvider`, `AsChildParser`         |
-| Traits      | `Has` prefix + PascalCase | `HasBooleanCoercion`                             |
-| Interfaces  | `-able` suffix            | `Classable`, `HtmlRenderable`                    |
-| Enums       | PascalCase, singular      | `Size`, `Type`, `Variant`, `Scope`               |
-| Enum cases  | PascalCase                | `Default`, `Destructive`, `True`, `False`, `Col` |
-| Methods     | camelCase                 | `coerceFrom()`, `toClass()`, `toArray()`         |
-| Blade files | kebab-case                | `button.blade.php`, `table.blade.php`            |
-| Variables   | camelCase                 | `$mergedClass`, `$buttonAttrs`, `$h1Attrs`       |
+| Element     | Convention                | Example                                    |
+| ----------- | ------------------------- | ------------------------------------------ |
+| Classes     | PascalCase                | `BladcnServiceProvider`, `AsChildParser`   |
+| Traits      | `Has` prefix + PascalCase | `HasBooleanCoercion`                       |
+| Interfaces  | `-able` suffix            | `Classable`, `HtmlRenderable`              |
+| Methods     | camelCase                 | `coerceFrom()`, `toClass()`, `toArray()`   |
+| Blade files | kebab-case                | `button.blade.php`, `table.blade.php`      |
+| Variables   | camelCase                 | `$mergedClass`, `$buttonAttrs`, `$h1Attrs` |
 
 ### File Organization
 
@@ -71,7 +69,6 @@ No PHP linter/formatter (Pint, PHPStan, PHPCS) is currently configured.
 src/
   Concerns/      — Traits (reusable mixins)
   Contracts/     — Interfaces
-  Enums/         — Enum types (grouped by domain subdirectory)
   Support/       — Utility/helper classes (static methods)
 resources/       — Anonymous Blade component templates
   table/         — Table subcomponents (row, head, cell, etc.)
@@ -79,12 +76,35 @@ resources/       — Anonymous Blade component templates
 docs/            — Component documentation (*.md)
 ```
 
-### Enum Organization
+### Props Validation
 
-- `Enums\Basic\` — shared/fundamental enums (`AsChild`, `Booleanish`, `Disabled`)
-- `Enums\Button\` — button-specific enums (`Size`, `Type`, `Variant`)
-- `Enums\Badge\` — badge-specific enums (`Variant`)
-- `Enums\Table\` — table-specific enums (`Scope`)
+**Always use `bladcnOptionsValidator()` for prop validation.** All component props use **primitive values** (strings, booleans, arrays) with validation inside the component.
+
+```blade
+@props([
+    "variant" => "default",
+    "size" => "medium",
+    "disabled" => false,
+])
+
+@php
+  bladcnOptionsValidator("button", [
+      "variant" => [
+          "value" => $variant,
+          "options" => ["default", "destructive", "outline"],
+      ],
+      "size" => ["value" => $size, "options" => ["small", "medium", "large"]],
+      "disabled" => ["value" => $disabled, "options" => [true, false]],
+  ]);
+@endphp
+```
+
+Key rules:
+
+- **No enums** — use string primitives with validation
+- Use `bladcnOptionsValidator()` to validate ALL prop values at runtime
+- Provide sensible defaults for all props
+- Coerce values when needed (e.g., `filter_var($value, FILTER_VALIDATE_BOOLEAN)` for boolean-like props)
 
 ### Imports
 
@@ -94,48 +114,51 @@ docs/            — Component documentation (*.md)
 
 ### Type System
 
-- **Enums** are the primary type-safe configuration mechanism
-- Backed string enums (`enum Size: string`) for variants/sizes/types
-- Unit enums (`enum AsChild`) for boolean-like states
-- Enums implement interfaces: `Classable`, `HtmlRenderable`, `StringCoercible`
+- **Primitives** are the primary configuration mechanism (strings, booleans, arrays)
+- All props validated at runtime with `bladcnOptionsValidator()`
 - Return types always explicit: `: void`, `: string`, `: ?string`, `: bool`, `: array`, `: self`
-- Use `Scope::tryFrom($value)` for safe coercion that returns `null` on invalid values
 
 ### Error Handling
 
 - Throw `InvalidArgumentException` for strict coercion failures
 - Return `null` for parse failures (e.g., `AsChildParser`)
-- Non-strict mode uses graceful fallbacks (default to `False`, etc.)
+- Non-strict mode uses graceful fallbacks (default to `false`, etc.)
 - No try/catch blocks in the codebase
 
 ### Props Pattern
 
-Every Blade component defines props with explicit defaults and uses an attrs array. There are **three approved patterns
-** depending on component complexity:
+Every Blade component defines props with explicit defaults and uses an attrs array. There are **three approved patterns** depending on component complexity:
 
 #### Pattern 1: Separate Variables (Standard — for most components)
 
-Use for components with coercion logic, conditional attributes, or computed values. This is the **default pattern** for
-table/\*, typography/\*, and similar subcomponents.
+Use for components with coercion logic, conditional attributes, or computed values. This is the **default pattern** for table/\*, typography/\*, and similar subcomponents.
 
 ```blade
 @props([
     "id" => null,
     "class" => null,
     "style" => null,
-    "variant" => Variant::Default,
+    "variant" => "default",
+    "size" => "medium",
 ])
 
 @php
-  $variant = Variant::coerceFrom($variant);
+  bladcnOptionsValidator("button", [
+      "variant" => [
+          "value" => $variant,
+          "options" => ["default", "destructive", "outline"],
+      ],
+      "size" => ["value" => $size, "options" => ["small", "medium", "large"]],
+  ]);
+
   $base = "bg-background rounded-md p-4";
-  $classes = [$base, $variant->toClass(), $class];
+  $classes = [$base, "text-" . $variant, "text-" . $size, $class];
 
   $attrs = [
       "id" => $id,
       "style" => $style,
       "data-slot" => "component",
-      "data-variant" => $variant->toHtml(),
+      "data-variant" => $variant,
   ];
 @endphp
 
@@ -147,6 +170,73 @@ table/\*, typography/\*, and similar subcomponents.
 Key rules:
 
 - `$classes` is always an array: `[$base, ...variant/size classes..., $class]`
+- `$class` is **always the last element** in the `$classes` array
+- `$attrs` (or domain-named: `$buttonAttrs`, `$headAttrs`) is a separate array
+- HTML element uses `$attributes->class($classes)->merge($attrs)` on a **single line** when possible
+- Use single quotes for Blade/PHP strings
+
+#### Pattern 2: Inline (Lightweight — for simple subcomponents)
+
+Use for subcomponents with no PHP logic (no `@php` block) and straightforward class/attribute merging.
+
+```blade
+@props([
+    "id" => null,
+    "class" => null,
+    "style" => null,
+])
+
+<element
+  {{ $attributes->class(["base classes here", $class])->merge([
+      "id" => $id,
+      "style" => $style,
+      "data-slot" => "component",
+  ]) }}>
+  {{ $slot }}
+</element>
+```
+
+Key rules:
+
+- No `@php` block
+- Classes are inline in `->class([...])`
+- `$class` is **always the last element** in the class array
+- `->merge([...])` is inline with the array on multiple lines
+
+#### Pattern 3: as-child Delegation (Polymorphic — for interactive components)
+
+Use for components that delegate rendering to `x-bladcn::as-child` (button, badge, triggers).
+
+```blade
+@props([
+    "id" => null,
+    "class" => null,
+    "style" => null,
+    "asChild" => false,
+])
+
+@php
+  $base = "inline-flex items-center justify-center";
+  $classes = [$base, $class];
+
+  $attrs = [
+      "id" => $id,
+      "style" => $style,
+      "data-slot" => "component",
+      ...$attributes->toArray(),
+  ];
+@endphp
+
+<x-bladcn::as-child :asChild="$asChild" :attrs="$attrs" :class="$classes"
+  tag="span">
+  {{ $slot }}
+</x-bladcn::as-child>
+```
+
+Key rules:
+
+- Uses `...$attributes->toArray()` spread inside `$attrs` (not `->merge()`)
+- Passes `:asChild="$asChild"` (primitive boolean) and `:attrs="$attrs"` to `x-bladcn::as-child`
 - `$class` is **always the last element** in the `$classes` array
 - `$attrs` (or domain-named: `$buttonAttrs`, `$headAttrs`) is a separate array
 - HTML element uses `$attributes->class($classes)->merge($attrs)` on a **single line** when possible

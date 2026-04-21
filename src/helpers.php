@@ -33,6 +33,7 @@ function bladcnHasEvent(ComponentAttributeBag $attributes, string $event): bool
     if ($attributes->has('x-on:'.$event)) {
         return true;
     }
+
     if ($attributes->has('@'.$event)) {
         return true;
     }

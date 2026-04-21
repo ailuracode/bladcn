@@ -7,9 +7,16 @@
 ])
 
 @php
-    $base = 'gap-2 text-sm font-medium flex w-fit items-center leading-snug';
+    $base =
+        'gap-2 text-sm font-medium flex w-fit items-center leading-snug has-data-[disabled=true]:opacity-50';
     $classes = [$base, $class];
-    $attrs = ['id' => $id, 'style' => $style, 'data-slot' => 'field-label'];
+    $attrs = [
+        'id' => $id,
+        'style' => $style,
+        'data-slot' => 'field-label',
+    ];
 @endphp
 
-<div {{ $attributes->class($classes)->merge($attrs) }}>{{ $slot }}</div>
+<div {{ $attributes->class($classes)->merge($attrs) }}>
+    {{ $slot }}
+</div>

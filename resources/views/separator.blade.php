@@ -7,9 +7,9 @@
     'orientation' => 'horizontal',
 ])
 
-<div
+<hr
     {{ $attributes->class([
-            'bg-input relative self-stretch data-horizontal:mx-px data-horizontal:w-auto data-vertical:my-px data-vertical:h-auto',
+            'shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch',
             $class,
         ])->merge([
             'id' => $id,
@@ -19,4 +19,4 @@
             'role' => 'separator',
             'aria-orientation' => $orientation,
         ]) }}>
-</div>
+</hr>

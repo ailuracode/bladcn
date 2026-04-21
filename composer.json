@@ -27,11 +27,13 @@
       "npm install"
     ],
     "lint:check": [
-      "pint --parallel --test"
+      "pint --parallel --test",
+      "bun format:blade:check"
     ],
     "lint": [
       "rector",
-      "pint --parallel"
+      "pint --parallel",
+      "bun format:blade"
     ]
   },
   "autoload": {

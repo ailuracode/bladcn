@@ -23,6 +23,8 @@
     @if ($slot->isNotEmpty())
         <span
             class="text-muted-foreground bg-background relative mx-auto block w-fit px-2"
-            data-slot="field-separator-content">{{ $slot }}</span>
+            data-slot="field-separator-content">
+            {{ $slot }}
+        </span>
     @endif
 </div>

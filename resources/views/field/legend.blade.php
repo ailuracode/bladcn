@@ -4,7 +4,6 @@
     'id' => null,
     'class' => null,
     'style' => null,
-    'variant' => 'label',
 ])
 
 @php
@@ -15,9 +14,10 @@
         'id' => $id,
         'style' => $style,
         'data-slot' => 'field-legend',
-        'data-variant' => $variant,
+        'data-variant' => 'label',
     ];
 @endphp
 
-<legend {{ $attributes->class($classes)->merge($attrs) }}>{{ $slot }}
+<legend {{ $attributes->class($classes)->merge($attrs) }}>
+    {{ $slot }}
 </legend>

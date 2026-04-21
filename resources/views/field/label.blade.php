@@ -1,20 +1,19 @@
 @blaze(fold: true)
 
-@use(AiluraCode\Bladcn\Enums\Basic\AsChild)
-
 @props([
     'id' => null,
     'class' => null,
     'for' => null,
     'style' => null,
-    'disabled' => false,
-    'asChild' => AsChild::False,
+    'asChild' => false,
 ])
 
 @php
-    $isAsChild = AsChild::coerceFrom($asChild);
+    bladcnOptionsValidator('field.label', [
+        'as-child' => ['value' => $asChild, 'options' => [true, false]],
+    ]);
     $base =
-        'has-data-checked:bg-primary/5 has-data-checked:border-primary/30 dark:has-data-checked:border-primary/20 dark:has-data-checked:bg-primary/10 gap-2 group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5 group/field-label peer/field-label flex w-fit leading-snug has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col';
+        'has-data-checked:bg-primary/5 has-data-checked:border-primary/30 dark:has-data-checked:border-primary/20 dark:has-data-checked:bg-primary/10 gap-2 group-data-[disabled]/field:opacity-50 group-data-[disabled]/field:cursor-not-allowed has-data-[disabled]:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:border *:data-[slot=field]:p-2.5 group/field-label peer/field-label flex w-fit leading-snug has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col';
     $classes = [$base, $class];
     $labelAttrs = [
         'id' => $id,
@@ -25,7 +24,7 @@
     ];
 @endphp
 
-<x-bladcn::as-child :asChild="$isAsChild"
+<x-bladcn::as-child :asChild="$asChild"
     :attrs="$labelAttrs"
     :class="$classes"
     tag="label">

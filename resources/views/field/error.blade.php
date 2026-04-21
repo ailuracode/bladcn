@@ -5,31 +5,18 @@
     'class' => null,
     'style' => null,
     'errors' => [],
-    'issues' => [],
 ])
 
 @php
     $content = trim($slot);
 
     if (!$content) {
-        $allErrors = collect($errors)->merge(collect($issues));
-
-        if (is_object($allErrors) && method_exists($allErrors, 'toArray')) {
-            $allErrors = $allErrors->toArray();
-        }
-
-        $messages = collect($allErrors)
+        $messages = collect($errors)
             ->filter()
-            ->map(function ($error) {
-                if (is_object($error)) {
-                    return $error->message ?? ($error->issueMessage ?? null);
-                }
-                return $error ?? null;
-            })
+            ->pluck('message')
             ->filter()
             ->unique()
             ->values();
-
         if ($messages->isEmpty()) {
             $content = null;
         } elseif ($messages->count() === 1) {
@@ -38,11 +25,18 @@
             $content = $messages;
         }
     }
+
+    $attrs = [
+        'id' => $id,
+        'style' => $style,
+        'data-slot' => 'field-error',
+        'role' => 'alert',
+    ];
 @endphp
 
 @if ($content)
     <div
-        {{ $attributes->class(['text-destructive text-sm font-normal', $class])->merge(['id' => $id, 'style' => $style, 'data-slot' => 'field-error', 'role' => 'alert']) }}>
+        {{ $attributes->class(['text-destructive text-sm font-normal', $class])->merge($attrs) }}>
         @if (is_string($content))
             {{ $content }}
         @else
